@@ -1,0 +1,10 @@
+tg_folder_name: vacancy
+
+# Initial backfill window (days). Subsequent runs are incremental.
+initial_backfill_days: 30
+
+# Vacancies older than this move to the Archive tab.
+archive_after_days: 30
+
+# A post is marked NEW if it appeared within this window (hours).
+new_window_hours: 24

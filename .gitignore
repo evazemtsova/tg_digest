@@ -216,3 +216,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project-specific
+*.session
+*.session-journal
+data/raw_tg.json
+data/parsed.json
+data/enriched.json
+.DS_Store
+.qodo/

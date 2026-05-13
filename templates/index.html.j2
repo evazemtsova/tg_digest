@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product jobs, из Telegram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+<header class="page-header">
+  <div class="decor decor-circle" aria-hidden="true"></div>
+  <div class="decor decor-rect" aria-hidden="true"></div>
+
+  <div class="header-row">
+    <div class="header-left">
+      <div class="eyebrow">
+        <span class="live-dot"></span>
+        <span class="mono">UPDATED {{ generated_at[:10] }} · {{ generated_at[11:16] }} UTC</span>
+      </div>
+      <h1 class="page-title">Product jobs, <em>из Telegram</em></h1>
+    </div>
+    <div class="header-right">
+      <input
+        type="search"
+        id="search-input"
+        class="search-input"
+        placeholder="Поиск по компании, тексту…"
+        autocomplete="off"
+      >
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab is-active" data-tab="24h" role="tab">24ч <span class="tab-count mono" data-count="24h">0</span></button>
+  <button class="tab" data-tab="7d" role="tab">7 дней <span class="tab-count mono" data-count="7d">0</span></button>
+  <button class="tab" data-tab="30d" role="tab">30 дней <span class="tab-count mono" data-count="30d">0</span></button>
+  <button class="tab" data-tab="archive" role="tab">Архив <span class="tab-count mono" data-count="archive">0</span></button>
+</nav>
+
+<div class="filters">
+  <div class="filter-dropdown" data-filter="location">
+    <button class="filter-trigger" type="button">
+      <span class="filter-label mono">ЛОКАЦИЯ</span>
+      <span class="filter-value">Все</span>
+      <span class="filter-caret">▾</span>
+    </button>
+    <div class="filter-popover">
+      <button class="popover-item is-active" data-value="all">Все</button>
+      <button class="popover-item" data-value="moscow">Москва</button>
+      <button class="popover-item" data-value="spb">СПб</button>
+      <button class="popover-item" data-value="regions">Регионы</button>
+      <button class="popover-item" data-value="remote">Remote</button>
+    </div>
+  </div>
+
+  <div class="filter-dropdown" data-filter="grade">
+    <button class="filter-trigger" type="button">
+      <span class="filter-label mono">ГРЕЙД</span>
+      <span class="filter-value">Все</span>
+      <span class="filter-caret">▾</span>
+    </button>
+    <div class="filter-popover">
+      <button class="popover-item is-active" data-value="all">Все</button>
+      <button class="popover-item" data-value="Lead">Lead</button>
+      <button class="popover-item" data-value="Head">Head</button>
+      <button class="popover-item" data-value="Senior">Senior</button>
+      <button class="popover-item" data-value="Middle">Middle</button>
+    </div>
+  </div>
+
+  <label class="filter-toggle">
+    <input type="checkbox" id="ml-toggle">
+    <span class="mono">ТОЛЬКО ML/AI</span>
+  </label>
+
+  <div class="filter-dropdown filter-dropdown--sort" data-filter="sort">
+    <button class="filter-trigger" type="button">
+      <span class="filter-label mono">↓</span>
+      <span class="filter-value">По дате</span>
+      <span class="filter-caret">▾</span>
+    </button>
+    <div class="filter-popover">
+      <button class="popover-item is-active" data-value="date">По дате (новые)</button>
+      <button class="popover-item" data-value="grade">По грейду (Head → Junior)</button>
+    </div>
+  </div>
+
+  <button class="reset-btn" hidden type="button">× Сбросить</button>
+</div>
+
+<div class="toolbar">
+  <span class="count mono"><span id="visible-count">0</span> из {{ vacancies|length }}</span>
+  <button class="hidden-toggle mono" id="hidden-toggle" hidden type="button">
+    Скрыто: <span id="hidden-count">0</span> · показать
+  </button>
+</div>
+
+<main class="vacancies" id="vacancies"></main>
+
+<footer class="page-footer">
+  <p class="mono">tg_digest · собрано из папки Telegram, обновляется ежедневно в 09:00 МСК</p>
+</footer>
+
+<script type="application/json" id="vacancies-data">{{ data_json | safe }}</script>
+<script src="static/app.js" defer></script>
+</body>
+</html>

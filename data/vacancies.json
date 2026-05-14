@@ -1,5 +1,27 @@
 [
   {
+    "channel_id": 1311743791,
+    "channel_username": "productjobgo",
+    "channel_title": "Вакансии для продакт-менеджеров",
+    "msg_id": 1374,
+    "date_iso": "2026-05-14T07:18:04+00:00",
+    "text": "Продакт-менеджер Kamlost LTD\n\nВсе возможности от редакции канала по ссылке.\n\nПлатёжный сервис для онлайн-бизнеса по всему миру, кроме СНГ. Больше 7 лет мы помогаем e-commerce, онлайн-школам и предпринимателям подключать приём платежей и работать с международной аудиторией.\n\nВажно: у нас не айтишные команды. Решения принимаются быстро, без бесконечных согласований, но и без привычной tech-культуры. Продакт для нас это бизнесовая роль: метрики, экономика, прямой контакт с фаундерами\n\nЧто предстоит делать:\n— Отвечать за развитие продукта, заниматься стратегией, дискавери, релизами, ростом метрик\n— Вести продуктовые инициативы от гипотезы до результата в цифрах\n— Работать с метриками: retention, LTV, юнит-экономика, конверсии воронки\n— Ставить A/B-тесты, читать результаты, принимать решения на данных\n— Использовать нейросети в ежедневной работе: ресёрч, прототипы, автоматизация рутины\n\nКого ищем:\n— Опыт в продакт-менеджменте от 3 лет, желательно в финтехе\n— Понимаешь юнит-экономику, читаешь когорты, видишь где появляются проблемы\n— Опыт прямой работы с фаундерами\n— Реально работаешь с ИИ инструментами \n— Английский на уровне чтения интерфейсов и документации\n\nУсловия:\n— Удалёнка, фулл-тайм, без микроменеджмента\n— Оплата в USDT/валюте, по договорённости\n— Продукт с реальными бюджетами и длинным горизонтом\n\nКонтакты: @hr_gen\n\nВсе возможности от редакции канала по ссылке.",
+    "link": "https://t.me/productjobgo/1374",
+    "regex_matched": true,
+    "is_vacancy": true,
+    "title": "Product Manager",
+    "company": "Kamlost LTD",
+    "location": "Remote",
+    "grade": "Middle",
+    "ml_ai": false,
+    "remote": true,
+    "salary": null,
+    "short_description": "Платёжный сервис для онлайн-бизнеса по всему миру. Ищем PM с опытом 3+ лет (желательно в финтехе) для работы со стратегией, дискавери, A/B-тестированием и метриками. Быстрые решения, прямой контакт с фаундерами, работа с ИИ-инструментами в ежедневной работе.",
+    "duplicates": [],
+    "is_new": true,
+    "is_archived": false
+  },
+  {
     "channel_id": 1093073202,
     "channel_username": "forproducts",
     "channel_title": "Job for Products and Projects",
@@ -392,7 +414,7 @@
     "salary": null,
     "short_description": "Стажировка на 6 месяцев в команде Поиска Яндекса. Управление бэклогом продуктов, исследовательские работы с пользовательским поведением, кросс-функциональная работа с разработкой и операционной командой.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -414,7 +436,7 @@
     "salary": null,
     "short_description": "Управление разделом «Ипотека» на сайте alfabank.ru, включая развитие существующих и запуск новых ипотечных страниц. Работа с бэклогом, приоритизацией, A/B-тестированием, анализом данных в Яндекс Метрике, Superset и Power BI для поиска точек роста.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -436,7 +458,7 @@
     "salary": null,
     "short_description": "Ищем опытного Product Owner для управления IT-продуктом в сфере ЭДО, товароучета или коммуникаций. Задачи включают разработку roadmap, работу с требованиями пользователей через интервью и анализ, проектирование UX и взаимодействие со стейкхолдерами.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -458,7 +480,7 @@
     "salary": null,
     "short_description": "IT holding building Web3 ecosystem (DEX, educational products, memepad) seeks experienced product leader to shape vision and strategy. Will lead discovery, roadmap, team management, and work with dev, data, UX and legal teams on multiple products in parallel.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -480,7 +502,7 @@
     "salary": null,
     "short_description": "Развитие цифровых сервисов благотворительного фонда, помогающего онкопациентам. Основной фокус на личном кабинете благополучателя с планами расширения на мобильную версию и внедрение фандрайзинга.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -502,7 +524,7 @@
     "salary": null,
     "short_description": "Way ll - инвестиционная компания, предоставляющая доступ к долям в реальном бизнесе и инструментам для получения дохода. Компания специализируется на инвестициях в действующие прибыльные предприятия.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -524,7 +546,7 @@
     "salary": null,
     "short_description": "Руководство направлением персонализации кредитных продуктов (Кредиты наличными, Кредитные карты). Требуется опыт с P&L кредитных продуктов, работа с CRM, клиентской базой и коммуникационными стратегиями.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -546,7 +568,7 @@
     "salary": null,
     "short_description": "Менеджер продукта в команду Reputation System. Требуется опыт разработки ML/AI-продуктов, работа с LLM и системами принятия решений, понимание метрик качества и аналитические навыки.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -568,7 +590,7 @@
     "salary": null,
     "short_description": "Разработка функций поиска товаров в Яндекс Поиске и с Алисой AI для миллионов пользователей. Требуется опыт в B2C-сегменте, умение работать с метриками и аналитикой.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -12304,7 +12326,7 @@
     "short_description": "Ведение разработки AI-ассистента для e-commerce платформы, который помогает клиентам на этапах поиска товара и управления заказами. Работа со стейкхолдерами включает маркетинг, контакт-центр и контент-команду для оптимизации продукта на основе данных пользователей.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 2823702878,
@@ -12326,7 +12348,7 @@
     "short_description": "Ищем продакт-менеджеров для B2B-направления в Messenger. Активная стадия развития платформы с запуском новых продуктов. Требуется опыт работы с данными, P/L, гипотезами и data-driven решениями.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 1311743791,
@@ -12348,6 +12370,6 @@
     "short_description": "AdTech company fighting ad fraud and helping businesses protect budgets. Team is transitioning to AI-first product development. Role involves leading 1-2 product directions, managing acquisition through monetization, and building AI-native product culture with direct founder access.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   }
 ]

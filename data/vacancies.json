@@ -3,6 +3,168 @@
     "channel_id": 2823702878,
     "channel_username": "jobs_product_managers",
     "channel_title": "Вакансии продакт менеджеров",
+    "msg_id": 478,
+    "date_iso": "2026-05-15T17:20:53+00:00",
+    "text": "👨‍💻 Technical Product Manager Emerging\n\n▪️Компания Emerging\n▪️Домен #TravelTech\n▪️Уровень #Middle #Senior\n▪️Формат #УдаленкаВнеРФ\n\nИщу Technical Product Manager (Middle) в команду Customer Operations. Вакансия в межнаре (смотрим только вне РФ).\n\nЕсли коротко: это человек, который возьмёт под крыло всю телефонию компании, от переговоров с провайдерами до оптимизации затрат и продуктового roadmap. \nЗдесь много операционки. Контракты, NDA, счета, infosec-задачи, биллинг, работа с юристами и финансами - это большая часть работы. Если тебе это ок - читай дальше.\n\nЧто будет в работе:\n— анализ расходов на телефонию по рынкам, поиск аномалий и точек экономии\n— вендор-менеджмент: переговоры по тарифам, управление SLA, подключение новых провайдеров (в т.ч. русскоязычных — Vox Implant и др.) \n— управление маршрутизацией, IVR, локализацией инфраструктуры в разных странах \n— оплата счетов, ведение PnL, таблицы трат по провайдерам и направлениям \n— оценка потенциала перевода звонков в чат и self-service каналы \n— продуктовый roadmap телефонии + интеграции с CRM, голосовой автоматизацией и другими платформами \n— работа с инженерами, Ops/CX, юристами и финансами\n\nЧто важно:\n— 3–5 лет в technical product management \n— готовность доводить операционные задачи до результата самостоятельно, без постоянной эскалации \n— умение читать API-документацию, понимать логику маршрутизации и модели тарификации \n— SQL для ad-hoc анализа, опыт с cost-моделями и юнит-экономикой \n— опыт коммерческих переговоров с telecom или SaaS-провайдерами \n— английский от B2 (переговоры с вендорами — регулярно), русский — обязателен\n\nОпыт именно в телефонии плюс, но не обязателен. Важнее системное мышление и умение быстро разбираться в новой предметной области.\n\nСсылка на пост LinkedIn\n\n📱 Канал о карьере и поиске работы\n\n🔴 Бесплатная карьерная консультация",
+    "link": "https://t.me/jobs_product_managers/478",
+    "regex_matched": true,
+    "is_vacancy": true,
+    "title": "Technical Product Manager, Middle",
+    "company": "Emerging",
+    "location": "Remote, вне РФ",
+    "grade": "Middle",
+    "ml_ai": false,
+    "remote": true,
+    "salary": null,
+    "short_description": "Ищем Technical PM для управления телефонией компании в TravelTech. Роль включает вендор-менеджмент, оптимизацию расходов, управление маршрутизацией и IVR, работу с провайдерами и интеграциями с CRM. Требуется 3–5 лет в technical product management, опыт с telecom/SaaS провайдерами, SQL и коммерческие переговоры.",
+    "duplicates": [],
+    "is_new": true,
+    "is_archived": false
+  },
+  {
+    "channel_id": 2667909413,
+    "channel_username": "ITjobsFeed",
+    "channel_title": "Jobs Feed IT & Digital Вакансии Агрегатор",
+    "msg_id": 10033,
+    "date_iso": "2026-05-15T17:02:35+00:00",
+    "text": "Менеджер продукта (Рекомендации) в 🏢 Ozon\n\n📍 Москва\n💸 от 365 000 ₽\n💎 Опыт 3-5 лет, Middle\n\nOzon — ведущая российская компания в сфере электронной коммерции, предоставляющая своим пользователям широкий выбор товаров и услуг. Команда Рекомендаций работает над улучшением пользовательского опыта, подбирая самые интересные товары для клиентов.\nЧто делать:\n• Работать над новыми фичами в рекомендациях (web и app) на всех этапах, от идеи до внедрения.\n• Погружаться в проблемы пользователей с точки зрения интерфейса и ранжирования выдачи.\n• Настраивать процесс генерации продуктовых гипотез и создавать планы на год.\n• Продумывать сценарии пользователя и реализовывать значимые UX изменения.\n• Проводить A/B-тесты и интерпретировать результаты.",
+    "link": "https://t.me/ITjobsFeed/10033",
+    "regex_matched": true,
+    "is_vacancy": true,
+    "title": "Product Manager, Рекомендации (Middle)",
+    "company": "Ozon",
+    "location": "Москва",
+    "grade": "Middle",
+    "ml_ai": true,
+    "remote": false,
+    "salary": "от 365 000 ₽",
+    "short_description": "Работа над рекомендациями товаров для пользователей Ozon. Команда занимается фичами на web и app, ранжированием выдачи, гипотезами и A/B-тестированием для улучшения пользовательского опыта.",
+    "duplicates": [],
+    "is_new": true,
+    "is_archived": false
+  },
+  {
+    "channel_id": 1093073202,
+    "channel_username": "forproducts",
+    "channel_title": "Job for Products and Projects",
+    "msg_id": 9886,
+    "date_iso": "2026-05-15T16:56:15+00:00",
+    "text": "Middle Product Manager \nв Авиасейлс — метапоисковик авиабилетов, помогающий найти самые дешёвые рейсы по 2000+ авиакомпаниям и ведущим авиакассам.\nУдалённая работа.\nОписание вакансии.\nИщет Анна Десяткина, её пост на LinkedIn.",
+    "link": "https://t.me/forproducts/9886",
+    "regex_matched": true,
+    "is_vacancy": true,
+    "title": "Middle Product Manager",
+    "company": "Авиасейлс",
+    "location": "Remote",
+    "grade": "Middle",
+    "ml_ai": false,
+    "remote": true,
+    "salary": null,
+    "short_description": "Авиасейлс — метапоисковик авиабилетов, помогающий найти самые дешёвые рейсы по 2000+ авиакомпаниям и ведущим авиакассам.",
+    "duplicates": [],
+    "is_new": true,
+    "is_archived": false
+  },
+  {
+    "channel_id": 1212353352,
+    "channel_username": "jobstobefound",
+    "channel_title": "Jobs To Be Found // Вакансии и резюме, менеджмент продуктов",
+    "msg_id": 983,
+    "date_iso": "2026-05-15T15:34:33+00:00",
+    "text": "Jobs To Be Found Daily Top vacancy #53  \nот 28.04.2026\n\n✅ Daily Top vacancy — рубрика, в которой мы несколько раз в неделю выбираем самую топовую вакансию уровня Senior и делимся ей с Вами\n\nSenior Product Manager в Mail ( VK )\n💰 заработная плата по результатам собеседования;\n🛠 формат работы: офис/гибрид;\n🕰 3+ года опыта разработки B2C‑продуктов с MAU 1M+;\n\nVK ищет сильного продакта, который возьмёт на себя одно из направлений роста продукта: стратегия, discovery, бэклог разработки и запуски, влияющие на ключевые метрики (MAU, Retention и др.). Это роль про высокий уровень ответственности, быстрые итерации и работу с данными — в тесной связке со смежными командами и топ-менеджментом бизнес-юнита.\n\nЧем предстоит заниматься:\n- Нести end-to-end ответственность за одно из направлений роста продукта;\n- Разрабатывать стратегию направления: цели, рычаги роста, гипотезы и план их реализации;\n- Запускать продуктовые изменения, влияющие на ключевые метрики (MAU, Retention и др.);\n- Лидировать discovery, управлять бэклогом команды разработки;\n- Координировать взаимодействие со смежными направлениями и топ‑менеджментом бизнес‑юнита;\n- Обеспечивать стабильные и качественные запуски и измеримый эффект.\n\nЧто ожидают от кандидата:\n- 3+ года опыта разработки B2C‑продуктов с MAU 1M+;\n- Сильный системный анализ и problem solving: структурность, приоритизация, поиск причин, генерация решений;\n- Проактивность и готовность действовать быстро в меняющейся среде;\n- Лидерство и зрелая культура взаимодействия в команде;\n- Сильная аналитика: A/B‑тесты (запуск/анализ), понимание P&L, умение строить простые модели для решений;\n- Практический опыт пользовательских исследований.\n\nПлюшки и бонусы:\n- Программа благополучия и заботы о здоровье;\n- Компенсация питания (800 ₽/день) в кафе рядом с офисами;\n- Компенсация спорта (до 35 000 ₽/год) и корпоративные спортивные команды;\n- Масштабные проекты и сильное окружение.\n\n#productmanager #vk #b2c #growth #senior\n_________\n📎Можно публиковать вакансии и искать работу в чате https://t.me/mindset_jobs/\n\n📎Наш канал с вакансиями: t.me/jobstobefound",
+    "link": "https://t.me/jobstobefound/983",
+    "regex_matched": true,
+    "is_vacancy": true,
+    "title": "Senior Product Manager, Mail",
+    "company": "VK",
+    "location": "Москва, гибрид",
+    "grade": "Senior",
+    "ml_ai": false,
+    "remote": false,
+    "salary": null,
+    "short_description": "VK ищет Senior Product Manager для развития одного из направлений Mail с ответственностью за стратегию, discovery и запуски, влияющие на ключевые метрики (MAU, Retention). Требуется 3+ года опыта в B2C-продуктах с миллионной аудиторией, сильные аналитические навыки и опыт A/B-тестирования.",
+    "duplicates": [],
+    "is_new": true,
+    "is_archived": false
+  },
+  {
+    "channel_id": 2667909413,
+    "channel_username": "ITjobsFeed",
+    "channel_title": "Jobs Feed IT & Digital Вакансии Агрегатор",
+    "msg_id": 10015,
+    "date_iso": "2026-05-15T13:00:18+00:00",
+    "text": "PM ASSISTANT | OFFICE SPB | #OFFICE #GAMEDEV #JOB #PM #ASSISTANT https://teletype.in/@courierus/_2Ic6c5y0s9",
+    "link": "https://t.me/ITjobsFeed/10015",
+    "regex_matched": true,
+    "is_vacancy": true,
+    "title": "PM Assistant",
+    "company": null,
+    "location": "СПб, офис",
+    "grade": "Junior",
+    "ml_ai": false,
+    "remote": false,
+    "salary": null,
+    "short_description": "Assistant position to support Product Manager in a gamedev studio. Based in Saint Petersburg office.",
+    "duplicates": [],
+    "is_new": true,
+    "is_archived": false
+  },
+  {
+    "channel_id": 1804835860,
+    "channel_username": "zarubezhom_jobs",
+    "channel_title": "Connectable Jobs",
+    "msg_id": 3854,
+    "date_iso": "2026-05-15T11:02:07+00:00",
+    "text": "Senior Product Manager (Brand Experiences) в ASOS.com\n\n📍Лондон\n💎Опыт работы менеджером продукта в e-commerce, моде или потребительских платформах\n🚀Фаундеры — Nick Robertson, Andrew Regan, Quentin Griffiths, Deborah Thorpe. В компании работают русскоговорящие ребята 💙 \n\nASOS.com — британский онлайн‑ритейлер модной одежды, обуви, аксессуаров и косметики\n\nРазмер команды — 1k-5k | Инвестиции — £587.5M🔥\n\nУзнать подробнее и откликнуться: тут \n\n🤝 Ещё 200+ вакансий продактов и проджектов в компаниях с русскоговорящими фаундерами/командами — в нашей рассылке\n\nДругие вакансии в компании: \n— Account Manager \n— Senior Creative Producer Manager\n— Machine Learning Engineer",
+    "link": "https://t.me/zarubezhom_jobs/3854",
+    "regex_matched": true,
+    "is_vacancy": true,
+    "title": "Senior Product Manager (Brand Experiences)",
+    "company": "ASOS.com",
+    "location": "Лондон",
+    "grade": "Senior",
+    "ml_ai": false,
+    "remote": false,
+    "salary": null,
+    "short_description": "ASOS — британский онлайн-ритейлер модной одежды, обуви, аксессуаров и косметики. Требуется опыт работы менеджером продукта в e-commerce, моде или потребительских платформах.",
+    "duplicates": [
+      {
+        "channel_username": "ITjobsFeed",
+        "channel_title": "Jobs Feed IT & Digital Вакансии Агрегатор",
+        "link": "https://t.me/ITjobsFeed/10004",
+        "date_iso": "2026-05-15T11:03:51+00:00",
+        "channel_id": 2667909413
+      }
+    ],
+    "is_new": true,
+    "is_archived": false
+  },
+  {
+    "channel_id": 1205373966,
+    "channel_username": "product_jobs",
+    "channel_title": "Вакансии для продактов и проджектов",
+    "msg_id": 2041,
+    "date_iso": "2026-05-15T09:56:21+00:00",
+    "text": "Вакансия: Senior Product Manager\nКомпания: GGOrbit\nФормат работы: полная занятость, гибрид/офис по желанию (Мск)\nЗП: от 3 000 до 3 750 $\n\n🔸О нас:\nМы создаем игровую платформу, которая соединяет привычный функционал 2.0 с возможностями 3.0. Наша цель - предоставить игрокам комфортный и безопасный сервис, решая насущные проблемы пользователей 2.0 и 3.0 экосистем.\n\n🔸Роль\nТебе предстоит формировать видение продукта, развивать roadmap, проверять гипотезы, запускать эксперименты и вместе с командой создавать игровой сервис.\nТвоя зона ответственности - не только придумать фичу, но и доказать ее ценность, довести до качественного релиза и оценить влияние на ключевые продуктовые метрики.\n\n🔸 Чем предстоит заниматься:\n– формировать продуктовое видение и roadmap по своему направлению;\n– вести полный цикл работы над продуктом;\n– переводить стратегические цели и OKR в продуктовые инициативы, метрики, backlog и задачи для команды;\n– проводить исследования;\n– искать и валидировать гипотезы, запускать MVP, прототипы и эксперименты;\n– готовить PRD, user stories, acceptance criteria, CJM и другую продуктовую документацию;\n– координировать запуск фичей и анализировать результаты после релиза;\n– следить за рынком, конкурентами, игровыми платформами, web3-продуктами и трендами gamedev;\n– регулярно синхронизировать команду и стейкхолдеров по статусу, рискам и результатам.\n\n🔸Кого ищем\n– 4+ года опыта в product management, из них 1-2 года на Senior-уровне;\n– опыт ведения продукта или крупного направления end-to-end;\n– сильное понимание product lifecycle;\n– умение работать с аналитикой, воронками, когортами и продуктовыми метриками;\n– опыт пользовательских исследований;\n– умение работать с техническими командами и понимать ограничения архитектуры, API, интеграций, real-time-систем и клиент-серверного взаимодействия;\n– способность принимать решения в условиях неопределенности и аргументировать приоритеты;\n\n🔸Желательно\n– опыт в B2C, игровых платформах, маркетплейсах, entertainment или high-engagement продуктах;\n– понимание соревновательных игровых механик: матчмейкинг, рейтинги, лидерборды, турниры, retention;\n– опыт с web3-продуктами, криптовалютами, кошельками или цифровыми активами;\n– опыт A/B-тестов;\n– понимание UX игровых интерфейсов, onboarding, активации и сценариев возврата пользователей.\n\n🔸Условия\n– гибкий график, основное окно связи: 12:00-16:00 GMT+3;\n– формат: Москва, гибрид или офис по желанию;\n– участие в создании игровой платформы с нуля;\n– возможности профессионального и карьерного роста;\n– сильную команду, прозрачные процессы и среду, где ценится инициатива.\n\n🔸Как откликнуться:\nhr@ggorbit.com",
+    "link": "https://t.me/product_jobs/2041",
+    "regex_matched": true,
+    "is_vacancy": true,
+    "title": "Senior Product Manager",
+    "company": "GGOrbit",
+    "location": "Москва, гибрид",
+    "grade": "Senior",
+    "ml_ai": false,
+    "remote": false,
+    "salary": "3000–3750 $",
+    "short_description": "Создание игровой платформы, соединяющей функционал Web 2.0 и Web 3.0. Вам предстоит формировать видение продукта, проводить исследования, валидировать гипотезы, запускать эксперименты и управлять полным циклом разработки игровых фич от концепции до анализа метрик.",
+    "duplicates": [],
+    "is_new": true,
+    "is_archived": false
+  },
+  {
+    "channel_id": 2823702878,
+    "channel_username": "jobs_product_managers",
+    "channel_title": "Вакансии продакт менеджеров",
     "msg_id": 477,
     "date_iso": "2026-05-15T08:14:10+00:00",
     "text": "💳 Менеджер продукта Т-Банк\n\n▪️Компания Т-Банк\n▪️Домен #FinTech \n▪️Грейд #Middle #Senior \n▪️Формат #ГибридМосква\n\nЯ Макс, руковожу T-Data в Т-Банке.\nЯ вместе с командой развиваю аналитику и и продукты на данных в Т-Банке. \nТак, с помощью данных о транзакциях, чеках и еще много всего - мы строим решения для улучшения продуктов банка и создаем свои продукты.\nКак раз, чтобы возглавить такой я сейчас ищу в команду опытного продакта Product Manager (Mid+/Senior). \n\nПисать можно в ЛС или tg @donkeyxot\n\nСсылка на пост LinkedIn\nСсылка на вакансию\n\n📱 Канал о карьере и поиске работы\n\n🔴 Бесплатная карьерная консультация",
@@ -40,7 +202,7 @@
     "salary": null,
     "short_description": "Управление продуктовым бэклогом и кросс-функциональной командой полного цикла (10 FTE + UX/UI) в ипотечном финтехе. Ответственность за вывод фичей в продакшн, оптимизацию клиентского пути и мониторинг ключевых метрик.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -62,7 +224,7 @@
     "salary": "$3К — $3.75К",
     "short_description": "GGorbit разрабатывает игровую платформу, объединяющую функционал 2.0 и возможности Web 3.0. Гибкий график, офис или гибридный формат работы.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -84,7 +246,7 @@
     "salary": null,
     "short_description": "Venture AI studio from Silicon Valley creating vertical AI products across HealthTech, LegalTech, HRTech, PropTech and building multi-agent economy. Available directions: Mobile B2C products, Hardware products with AI, and B2G solutions.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -106,7 +268,7 @@
     "salary": null,
     "short_description": "Динамичная команда, создающая мобильные и веб-приложения в нишах Lifestyle, Health и Utilities. Удалённая работа с гибким графиком.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -128,7 +290,7 @@
     "salary": null,
     "short_description": "Plata is a Mexican fintech startup offering digital banking services, consumer lending, and credit cards with up to 15% cashback and no annual fees. On-site position with flexible working hours and relocation support available.",
     "duplicates": [],
-    "is_new": true,
+    "is_new": false,
     "is_archived": false
   },
   {
@@ -11823,7 +11985,7 @@
     "short_description": "Топ-10 МФО в РФ ищет CPO для масштабирования бизнеса с фокусом на рост доходности, take rate и оборачиваемость клиентов. Требуется опыт в кредитных продуктах, управлении доходностью и работе с risk, marketing, finance, compliance и IT командами.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 2667909413,
@@ -11845,7 +12007,7 @@
     "short_description": "Управление развитием телекоммуникационных продуктов и услуг. Ответственность за планирование функционала, запуск маркетинговых активностей, контроль выручки и взаимодействие с техническими службами, отделами продаж и партнерами.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 2667909413,
@@ -11867,7 +12029,7 @@
     "short_description": "Ищется опытный PM для работы с несколькими B2B-продуктами. Требуется 5+ лет опыта в управлении продуктом, опыт вывода решений на рынок, работа с метриками и ИИ-инструментами. Необходимо преобразовывать экспертизу компании в продукты, создающие бизнес-ценность для клиентов.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 2667909413,
@@ -11889,7 +12051,7 @@
     "short_description": "Лидирующая iGaming компания ищет двух Product Manager: для разработки утилитарного токена с нуля (TGE, токеномика, листинг) и для построения криптопроцессинга как самостоятельной инфраструктуры (приём и выплаты криптоплатежей, работа с блокчейнами, маршрутизация транзакций). Требуется опыт в Web3/DeFi и построение системы, а не просто интеграция готовых решений.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 2298616665,
@@ -11911,7 +12073,7 @@
     "short_description": "Разработка и упаковка маршрутов автопутешествий в России, Европе и других туристических направлениях с подбором премиального транспорта и отелей люкс-сегмента.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 1093073202,
@@ -11933,7 +12095,7 @@
     "short_description": "Formula is an AI-powered nutrition assistant helping individuals improve their health, energy, and longevity. The role focuses on monetization strategy with flexible working hours and remote work setup.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 1093073202,
@@ -11955,7 +12117,7 @@
     "short_description": "Cloover is a European fintech company focused on the clean energy market. The role is based on-site in Berlin.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 1311743791,
@@ -11977,7 +12139,7 @@
     "short_description": "LineEx ищет Product Manager для работы над CRM системой с интеграциями каналов связи (Telegram, WhatsApp, Email и т.д). Требуется опыт 3+ лет в PM, знание Agile, работа с аналитикой и управление командой разработчиков и дизайнеров.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 1093073202,
@@ -11999,7 +12161,7 @@
     "short_description": "Building and developing the end-to-end mass hiring process in Colombia for a Mexican fintech startup. Relocation support and flexible office work available.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 1093073202,
@@ -12021,7 +12183,7 @@
     "short_description": "Аутсорсинговая IT-компания, разрабатывающая индивидуальные программные решения для логистики, финансов и торговли. Ищут опытного PM для работы с B2B продуктами.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 1093073202,
@@ -12043,7 +12205,7 @@
     "short_description": "Вакансия в команду Магнит OMNI, ключевую бизнес-группу ритейлера, отвечающую за цифровизацию и омниканальный опыт. Позиция доступна в формате офис/гибрид или полностью удалённо.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 1093073202,
@@ -12065,7 +12227,7 @@
     "short_description": "Synthesia is the world's leading AI video platform for business, used by over 90% of the Fortune 100. This role focuses on video creation and editing products within their AI platform.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 3649462054,
@@ -12087,7 +12249,7 @@
     "short_description": "Запуск и развитие умных помощников для рекомендации товаров и проведения пользователей к покупке. Расширение покрытия оферт, оптимизация процессов, координация с командами Яндекса, управление транзакционными сценариями для增увеличения выручки от комиссий.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 2667909413,
@@ -12109,7 +12271,7 @@
     "short_description": "Домклик — продуктовая технологическая компания в сфере недвижимости. Разработка стратегии витрины первичной недвижимости, запуск новых продуктов, приоритизация задач и взаимодействие с командой разработки и смежными командами.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 2667909413,
@@ -12131,7 +12293,7 @@
     "short_description": "Руководство командой продакт-менеджеров в сервисе подписки Яндекс Плюс. Развитие сценариев продажи, управление платёжным флоу, удержание подписчиков и запуск новых тарифов для пользователей в Центральной Азии и на Кавказе.",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 1311743791,
@@ -12153,7 +12315,7 @@
     "short_description": "Развитие направления страхования путешественников с фокусом на клиентский опыт и бизнес-метрики. Управление P&L, работа со стыком продукта, финансов, рисков и каналов продаж (веб, мобильное приложение, партнерские каналы S7 и Т-Тревел).",
     "duplicates": [],
     "is_new": false,
-    "is_archived": false
+    "is_archived": true
   },
   {
     "channel_id": 2823702878,

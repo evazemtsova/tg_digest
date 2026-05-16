@@ -6,32 +6,30 @@
 <title>Product jobs, from Telegram</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700;8..60,900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="static/style.css?v={{ asset_v }}">
 </head>
 <body>
 
-<header class="page-header">
-  <div class="decor decor-circle" aria-hidden="true"></div>
-  <div class="decor decor-rect" aria-hidden="true"></div>
-
-  <div class="header-row">
-    <div class="header-left">
-      <div class="eyebrow">
-        <span class="live-dot"></span>
-        <span class="mono">UPDATED {{ generated_at[:10] }} · {{ generated_at[11:16] }} UTC</span>
-      </div>
-      <h1 class="page-title">Product jobs, <em>from Telegram</em></h1>
-    </div>
-    <div class="header-right">
-      <input
-        type="search"
-        id="search-input"
-        class="search-input"
-        placeholder="Поиск по компании, тексту…"
-        autocomplete="off"
-      >
-    </div>
+<header class="masthead">
+  <div class="masthead-top">
+    <span class="masthead-kicker mono">
+      <span class="live-dot"></span>TG&nbsp;DIGEST
+    </span>
+    <span class="masthead-date mono">{{ generated_at[:4] }} · {{ generated_at[5:7] }} · {{ generated_at[8:10] }}</span>
+  </div>
+  <h1 class="page-title">Product jobs, <em>from Telegram</em></h1>
+  <div class="masthead-dateline mono">
+    Personal vacancy digest · Updated {{ generated_at[:10] }} · {{ generated_at[11:16] }} UTC
+  </div>
+  <div class="masthead-search">
+    <input
+      type="search"
+      id="search-input"
+      class="search-input"
+      placeholder="Поиск по компании, тексту…"
+      autocomplete="off"
+    >
   </div>
 </header>
 

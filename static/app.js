@@ -183,6 +183,15 @@ function tagList(v) {
   return tags.join('');
 }
 
+function bylineLine(v) {
+  const company = v.company || '';
+  const location = v.location || (v.remote ? 'Remote' : '');
+  if (company && location) return `By <span class="byline-company">${escapeHtml(company)}</span> — ${escapeHtml(location)}.`;
+  if (company) return `By <span class="byline-company">${escapeHtml(company)}</span>.`;
+  if (location) return escapeHtml(location) + '.';
+  return '';
+}
+
 function dupesButton(v) {
   const dupes = v.duplicates || [];
   if (!dupes.length) return '';
@@ -207,22 +216,27 @@ function metaLine(v) {
 
 function renderCard(v, idx) {
   const uid = vUid(v);
-  const num = String(idx + 1).padStart(2, '0');
   const isNew = v.is_new ? 'is-new' : '';
+  const channel = v.channel_username ? `@${v.channel_username}` : (v.channel_title || '');
+  const byline = bylineLine(v);
+  const desc = v.short_description || '';
+  const tags = tagList(v);
+  const dupes = dupesButton(v);
 
   return `
     <article class="vacancy ${isNew}" data-uid="${escapeHtml(uid)}" role="button" tabindex="0">
-      <div class="v-num">${num}</div>
-      <div class="v-body">
-        ${v.is_new ? '<div class="v-tags-top"><span class="tag-new">NEW</span></div>' : ''}
-        <h2 class="v-title">${escapeHtml(v.title || '')}</h2>
-        <div class="v-meta">${metaLine(v)}</div>
-        <p class="v-desc">${escapeHtml(v.short_description || '')}</p>
-        <div class="v-tags">${tagList(v)}</div>
-      </div>
-      <div class="v-aside">
-        <div class="v-time">${relativeTime(v.date_iso)}</div>
-        ${dupesButton(v)}
+      ${v.is_new ? '<div class="v-kicker mono">New</div>' : ''}
+      <h2 class="v-title">${escapeHtml(v.title || '')}</h2>
+      ${byline ? `<div class="v-byline">${byline}</div>` : ''}
+      ${desc ? `<p class="v-desc">${escapeHtml(desc)}</p>` : ''}
+      <div class="v-footer">
+        ${tags ? `<div class="v-tags">${tags}</div>` : ''}
+        <div class="v-stamp mono">
+          <span>${escapeHtml(channel)}</span>
+          <span class="v-stamp-sep">·</span>
+          <span>${relativeTime(v.date_iso)}</span>
+          ${dupes ? `<span class="v-stamp-sep">·</span>${dupes}` : ''}
+        </div>
       </div>
     </article>`;
 }
@@ -439,21 +453,29 @@ function renderModalContent(v) {
   const dateStr = date.toLocaleString('ru-RU', {
     day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
   });
+  const channel = v.channel_username ? `@${v.channel_username}` : (v.channel_title || '');
+  const byline = bylineLine(v);
+  const tags = tagList(v);
   const dupes = (v.duplicates || []).map(d => {
     const label = d.channel_title || d.channel_username || 'канал';
     return `<a href="${escapeHtml(d.link)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`;
   }).join('');
 
   return `
-    ${v.is_new ? '<div class="v-tags-top"><span class="tag-new">NEW</span></div>' : ''}
+    ${v.is_new ? '<div class="v-kicker mono">New</div>' : ''}
     <h2 class="modal-title" id="modal-title">${escapeHtml(v.title || '')}</h2>
-    <div class="modal-meta">${metaLine(v)} · <span class="mono">${escapeHtml(dateStr)}</span></div>
-    <div class="v-tags modal-tags">${tagList(v)}</div>
+    ${byline ? `<div class="modal-byline">${byline}</div>` : ''}
+    <div class="modal-stamp mono">
+      <span>${escapeHtml(channel)}</span>
+      <span>·</span>
+      <span>${escapeHtml(dateStr)}</span>
+    </div>
+    ${tags ? `<div class="v-tags modal-tags">${tags}</div>` : ''}
     <div class="modal-text">${renderTextWithLinks(v.text || '', v.entities)}</div>
     <div class="modal-actions">
       <a class="btn-open" href="${escapeHtml(v.link)}" target="_blank" rel="noopener">Открыть в Telegram →</a>
     </div>
-    ${dupes ? `<div class="modal-dupes"><div class="modal-dupes-label mono">также в:</div>${dupes}</div>` : ''}
+    ${dupes ? `<div class="modal-dupes"><div class="modal-dupes-label mono">Также в:</div>${dupes}</div>` : ''}
   `;
 }
 

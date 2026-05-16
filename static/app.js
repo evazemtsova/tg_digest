@@ -14,6 +14,8 @@ const state = {
 
 const root = document.getElementById('vacancies');
 const visibleCountEl = document.getElementById('visible-count');
+const searchIndicatorEl = document.getElementById('search-indicator');
+const searchIndicatorQEl = document.getElementById('search-indicator-q');
 
 const FILTER_LABELS = {
   location: { all: 'Все', moscow: 'Москва', spb: 'СПб', regions: 'Регионы', remote: 'Remote' },
@@ -188,14 +190,23 @@ function dupesButton(v) {
     const label = d.channel_title || d.channel_username || 'канал';
     return `<a href="${escapeHtml(d.link)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`;
   }).join('');
-  return `<button class="btn-dupes" type="button" data-action="dupes">×${dupes.length}<span class="dupes-tooltip">${items}</span></button>`;
+  const n = dupes.length;
+  const label = `Та же вакансия ещё в ${n} ${n === 1 ? 'канале' : 'каналах'}`;
+  return `<button class="btn-dupes" type="button" data-action="dupes" title="${escapeHtml(label)}" aria-label="${escapeHtml(label)}">${n}<span class="btn-dupes-icon" aria-hidden="true">↗</span><span class="dupes-tooltip">${items}</span></button>`;
+}
+
+function metaLine(v) {
+  const channel = v.channel_username ? `@${v.channel_username}` : (v.channel_title || '');
+  const parts = [];
+  if (v.company) parts.push(v.company);
+  if (v.location) parts.push(v.location);
+  else if (v.remote) parts.push('Remote');
+  if (channel) parts.push(channel);
+  return parts.map(escapeHtml).join(' · ');
 }
 
 function renderCard(v, idx) {
   const uid = vUid(v);
-  const channel = v.channel_username ? `@${v.channel_username}` : (v.channel_title || '');
-  const company = v.company || 'не указана';
-  const location = v.location || (v.remote ? 'Remote' : 'не указана');
   const num = String(idx + 1).padStart(2, '0');
   const isNew = v.is_new ? 'is-new' : '';
 
@@ -205,9 +216,7 @@ function renderCard(v, idx) {
       <div class="v-body">
         ${v.is_new ? '<div class="v-tags-top"><span class="tag-new">NEW</span></div>' : ''}
         <h2 class="v-title">${escapeHtml(v.title || '')}</h2>
-        <div class="v-meta">
-          ${escapeHtml(company)} · ${escapeHtml(location)} · ${escapeHtml(channel)}
-        </div>
+        <div class="v-meta">${metaLine(v)}</div>
         <p class="v-desc">${escapeHtml(v.short_description || '')}</p>
         <div class="v-tags">${tagList(v)}</div>
       </div>
@@ -250,11 +259,31 @@ function render() {
   visibleCountEl.textContent = currentItems.length;
   root.innerHTML = '';
 
+  // Active-search indicator next to the count.
+  if (state.query) {
+    searchIndicatorQEl.textContent = state.query;
+    searchIndicatorEl.hidden = false;
+  } else {
+    searchIndicatorEl.hidden = true;
+  }
+
   updateTabCounts();
   updateResetVisibility();
 
   if (!currentItems.length) {
-    root.innerHTML = '<p class="empty">Ничего не найдено для текущих фильтров.</p>';
+    const canReset = state.location !== 'all' || state.grade !== 'all' ||
+                     state.mlOnly || state.query;
+    root.innerHTML = `
+      <div class="empty">
+        <p class="empty-title">Ничего не найдено</p>
+        <p class="empty-hint">${canReset
+          ? 'Попробуй сбросить фильтры или сменить временной период.'
+          : 'В этом окне пока пусто. Загляни в другую вкладку.'}</p>
+        ${canReset ? '<button class="empty-reset" type="button" id="empty-reset">Сбросить фильтры</button>' : ''}
+      </div>`;
+    document.getElementById('empty-reset')?.addEventListener('click', () => {
+      document.querySelector('.reset-btn').click();
+    });
     return;
   }
 
@@ -406,9 +435,6 @@ function closeModal() {
 }
 
 function renderModalContent(v) {
-  const channel = v.channel_username ? `@${v.channel_username}` : (v.channel_title || '');
-  const company = v.company || 'не указана';
-  const location = v.location || (v.remote ? 'Remote' : 'не указана');
   const date = new Date(v.date_iso);
   const dateStr = date.toLocaleString('ru-RU', {
     day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
@@ -421,11 +447,9 @@ function renderModalContent(v) {
   return `
     ${v.is_new ? '<div class="v-tags-top"><span class="tag-new">NEW</span></div>' : ''}
     <h2 class="modal-title" id="modal-title">${escapeHtml(v.title || '')}</h2>
-    <div class="modal-meta">
-      ${escapeHtml(company)} · ${escapeHtml(location)} · ${escapeHtml(channel)} · <span class="mono">${escapeHtml(dateStr)}</span>
-    </div>
+    <div class="modal-meta">${metaLine(v)} · <span class="mono">${escapeHtml(dateStr)}</span></div>
     <div class="v-tags modal-tags">${tagList(v)}</div>
-    <pre class="modal-text">${renderTextWithLinks(v.text || '', v.entities)}</pre>
+    <div class="modal-text">${renderTextWithLinks(v.text || '', v.entities)}</div>
     <div class="modal-actions">
       <a class="btn-open" href="${escapeHtml(v.link)}" target="_blank" rel="noopener">Открыть в Telegram →</a>
     </div>

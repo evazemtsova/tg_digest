@@ -254,13 +254,16 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 
 /* =========================== TOOLBAR =========================== */
 .toolbar {
-  display: flex; justify-content: space-between;
+  display: flex; justify-content: flex-start;
   align-items: center;
+  gap: 8px;
   padding: 12px 0;
   font-size: 11px; text-transform: uppercase;
   color: var(--text-muted);
   letter-spacing: 0.04em;
 }
+.search-indicator { color: var(--accent); text-transform: none; }
+.search-indicator[hidden] { display: none; }
 
 /* =========================== VACANCY CARD =========================== */
 .vacancies { display: flex; flex-direction: column; }
@@ -365,6 +368,9 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 
 .btn-dupes {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   background: transparent;
   border: 1px solid var(--line-soft);
   padding: 5px 10px;
@@ -378,6 +384,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 .btn-dupes:hover {
   border-color: var(--text); color: var(--text);
 }
+.btn-dupes-icon { font-size: 12px; line-height: 1; }
 
 .dupes-tooltip {
   display: none;
@@ -415,10 +422,34 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 }
 
 .empty {
-  padding: 64px 0;
-  color: var(--text-muted);
+  padding: 80px 16px;
   text-align: center;
+}
+.empty-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.empty-hint {
   font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.empty-reset {
+  display: inline-block;
+  background: var(--text); color: var(--bg);
+  border: 1px solid var(--text);
+  padding: 9px 18px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.empty-reset:hover {
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 /* =========================== MOBILE =========================== */
@@ -445,6 +476,8 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
     overflow-x: auto;
     flex-wrap: nowrap;
     -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: linear-gradient(to right, black 88%, transparent 100%);
+    mask-image: linear-gradient(to right, black 88%, transparent 100%);
     position: static;
   }
   .filter-dropdown, .filter-toggle { flex-shrink: 0; }
@@ -457,7 +490,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
     gap: 12px;
     padding: 20px 0;
   }
-  .v-num { font-size: 11px; }
+  .v-num { display: none; }
   .v-title { font-size: 18px; }
   .v-aside {
     flex-direction: row;

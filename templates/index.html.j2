@@ -95,9 +95,6 @@
 
 <div class="toolbar">
   <span class="count mono"><span id="visible-count">0</span> из {{ vacancies|length }}</span>
-  <button class="hidden-toggle mono" id="hidden-toggle" hidden type="button">
-    Скрыто: <span id="hidden-count">0</span> · показать
-  </button>
 </div>
 
 <main class="vacancies" id="vacancies"></main>
@@ -105,6 +102,13 @@
 <footer class="page-footer">
   <p class="mono">tg_digest · собрано из папки Telegram, обновляется ежедневно в 09:00 МСК</p>
 </footer>
+
+<div class="modal-overlay" id="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" id="modal-close" type="button" aria-label="Закрыть">×</button>
+    <div class="modal-content" id="modal-content"></div>
+  </div>
+</div>
 
 <script type="application/json" id="vacancies-data">{{ data_json | safe }}</script>
 <script src="static/app.js" defer></script>

@@ -261,31 +261,21 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   color: var(--text-muted);
   letter-spacing: 0.04em;
 }
-.hidden-toggle {
-  background: none; border: none;
-  font: inherit;
-  font-size: 11px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  cursor: pointer;
-  letter-spacing: 0.04em;
-}
-.hidden-toggle:hover { color: var(--accent); }
 
 /* =========================== VACANCY CARD =========================== */
 .vacancies { display: flex; flex-direction: column; }
 
 .vacancy {
   display: grid;
-  grid-template-columns: 48px 1fr 200px;
+  grid-template-columns: 48px 1fr 120px;
   gap: 20px;
   padding: 24px 16px;
   border-bottom: 1px solid var(--line-soft);
   transition: background 0.15s;
+  cursor: pointer;
 }
 .vacancy:hover { background: rgba(255, 255, 255, 0.5); }
-
-.vacancy.is-hidden { display: none; }
+.vacancy:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
 .v-num {
   font-family: 'JetBrains Mono', monospace;
@@ -374,11 +364,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   background: var(--accent); border-color: var(--accent);
 }
 
-.v-aside-row {
-  display: flex; gap: 6px; align-items: center;
-}
-
-.btn-dupes, .btn-hide {
+.btn-dupes {
   position: relative;
   background: transparent;
   border: 1px solid var(--line-soft);
@@ -390,7 +376,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   color: var(--text-muted);
   text-transform: uppercase;
 }
-.btn-dupes:hover, .btn-hide:hover {
+.btn-dupes:hover {
   border-color: var(--text); color: var(--text);
 }
 
@@ -480,6 +466,119 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
     justify-content: space-between;
     flex-wrap: wrap;
   }
-  .v-aside-row { width: 100%; justify-content: flex-end; }
-  .btn-open { min-height: 40px; padding: 10px 18px; }
+
+  .modal { padding: 24px 20px 20px; max-height: 92vh; }
+  .modal-title { font-size: 20px; }
+  .modal-text { font-size: 13px; }
+  .modal-close { top: 8px; right: 8px; }
 }
+
+/* =========================== MODAL =========================== */
+body.modal-open { overflow: hidden; }
+
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(26, 26, 26, 0.55);
+  z-index: 100;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 16px;
+  overflow-y: auto;
+}
+.modal-overlay[hidden] { display: none; }
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  box-shadow: 6px 6px 0 var(--line);
+  padding: 36px 40px 28px;
+  margin: auto 0;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 36px; height: 36px;
+  background: transparent;
+  border: 1px solid var(--line-soft);
+  font-size: 22px;
+  line-height: 1;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.modal-close:hover {
+  border-color: var(--text);
+  color: var(--text);
+}
+
+.modal-title {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  padding-right: 40px;
+}
+.modal-title em { color: var(--accent); }
+
+.modal-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.modal-tags { margin-bottom: 20px; }
+
+.modal-text {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  background: var(--bg);
+  border-left: 3px solid var(--accent);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+.modal-text a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.modal-text a:hover { text-decoration: none; }
+
+.modal-actions {
+  display: flex; gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.modal-dupes {
+  border-top: 1px solid var(--line-soft);
+  padding-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+}
+.modal-dupes-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+.modal-dupes a {
+  font-size: 13px;
+  color: var(--text);
+  text-decoration: underline;
+}
+.modal-dupes a:hover { color: var(--accent); }

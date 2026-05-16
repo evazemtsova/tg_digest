@@ -19,7 +19,13 @@ from dotenv import load_dotenv
 from telethon import TelegramClient
 from telethon.sessions import StringSession
 from telethon.tl.functions.messages import GetDialogFiltersRequest
-from telethon.tl.types import InputPeerChannel, InputPeerChat, InputPeerUser
+from telethon.tl.types import (
+    InputPeerChannel,
+    InputPeerChat,
+    InputPeerUser,
+    MessageEntityTextUrl,
+    MessageEntityUrl,
+)
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"
@@ -58,6 +64,27 @@ def _post_link(channel, msg_id: int) -> str:
         return f"https://t.me/{username}/{msg_id}"
     channel_id = getattr(channel, "id", None)
     return f"https://t.me/c/{channel_id}/{msg_id}"
+
+
+def _extract_link_entities(msg) -> list[dict]:
+    """Extract URL entities from a Telegram message.
+
+    Offsets/lengths are in UTF-16 code units (as TG returns them). JS strings
+    are also UTF-16, so the frontend can slice text[offset:offset+length]
+    directly — no conversion needed there.
+    """
+    out: list[dict] = []
+    for ent in msg.entities or []:
+        if isinstance(ent, MessageEntityUrl):
+            out.append({"type": "url", "offset": ent.offset, "length": ent.length})
+        elif isinstance(ent, MessageEntityTextUrl):
+            out.append({
+                "type": "text_url",
+                "offset": ent.offset,
+                "length": ent.length,
+                "url": ent.url,
+            })
+    return out
 
 
 def _channel_meta(channel) -> dict:
@@ -113,14 +140,26 @@ async def _fetch_async() -> list[dict]:
                     continue
                 if msg.date < since:
                     break
-                text = (msg.message or "").strip()
+                raw_text = msg.message or ""
+                text = raw_text.strip()
                 if not text:
                     continue
+                # strip moves entity offsets — adjust by the lstripped prefix
+                # (always ASCII whitespace, so codepoint count == UTF-16 units).
+                prefix_len = len(raw_text) - len(raw_text.lstrip())
+                text_utf16_len = len(text.encode("utf-16-le")) // 2
+                entities = [
+                    {**e, "offset": e["offset"] - prefix_len}
+                    for e in _extract_link_entities(msg)
+                    if e["offset"] >= prefix_len
+                    and (e["offset"] - prefix_len) + e["length"] <= text_utf16_len
+                ]
                 posts.append({
                     **meta,
                     "msg_id": msg.id,
                     "date_iso": msg.date.astimezone(timezone.utc).isoformat(),
                     "text": text,
+                    "entities": entities,
                     "link": _post_link(channel, msg.id),
                 })
                 count += 1

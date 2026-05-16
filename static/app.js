@@ -1,9 +1,7 @@
-// Vacancy digest — client-side filtering, search, sort, hide & infinite scroll.
+// Vacancy digest — client-side filtering, search, sort & infinite scroll.
 
 const data = JSON.parse(document.getElementById('vacancies-data').textContent || '[]');
-
-const STORAGE_KEY = 'tgdigest:hidden_v1';
-const hiddenIds = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+const byUid = new Map();
 
 const state = {
   tab: '24h',
@@ -12,13 +10,10 @@ const state = {
   sort: 'date',
   mlOnly: false,
   query: '',
-  showHidden: false,
 };
 
 const root = document.getElementById('vacancies');
 const visibleCountEl = document.getElementById('visible-count');
-const hiddenToggleEl = document.getElementById('hidden-toggle');
-const hiddenCountEl = document.getElementById('hidden-count');
 
 const FILTER_LABELS = {
   location: { all: 'Все', moscow: 'Москва', spb: 'СПб', regions: 'Регионы', remote: 'Remote' },
@@ -85,11 +80,6 @@ function matchesQuery(v) {
   return hay.includes(q);
 }
 
-function notHidden(v) {
-  if (state.showHidden) return true;
-  return !hiddenIds.has(vUid(v));
-}
-
 function sortItems(arr) {
   const sorted = arr.slice();
   if (state.sort === 'date') {
@@ -108,7 +98,7 @@ function sortItems(arr) {
 function filtered() {
   const items = data.filter(v =>
     matchesTab(v) && matchesLocation(v) && matchesGrade(v) &&
-    matchesMl(v) && matchesQuery(v) && notHidden(v)
+    matchesMl(v) && matchesQuery(v)
   );
   return sortItems(items);
 }
@@ -120,7 +110,7 @@ function tabCount(tab) {
     state.tab = tab;
     const ok = matchesTab(v);
     state.tab = prev;
-    return ok && matchesLocation(v) && matchesGrade(v) && matchesMl(v) && matchesQuery(v) && notHidden(v);
+    return ok && matchesLocation(v) && matchesGrade(v) && matchesMl(v) && matchesQuery(v);
   }).length;
 }
 
@@ -136,6 +126,50 @@ function escapeHtml(s) {
   return (s == null ? '' : String(s))
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// Render text with clickable links: applies TG entities (covers hidden links
+// like "[here](url)") then linkifies remaining plain http(s) URLs by regex.
+// JS strings are UTF-16, matching TG entity offset units — slice directly.
+const URL_RE = /https?:\/\/[^\s<>()"']+[^\s<>()"'.,;:!?]/g;
+
+function safeHref(url) {
+  const u = String(url || '').trim();
+  return /^https?:\/\//i.test(u) ? u : '#';
+}
+
+function linkifyPlain(text) {
+  let out = '';
+  let last = 0;
+  for (const m of text.matchAll(URL_RE)) {
+    out += escapeHtml(text.slice(last, m.index));
+    const url = m[0];
+    out += `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">${escapeHtml(url)}</a>`;
+    last = m.index + url.length;
+  }
+  out += escapeHtml(text.slice(last));
+  return out;
+}
+
+function renderTextWithLinks(text, entities) {
+  if (!text) return '';
+  const ents = (entities || [])
+    .filter(e => (e.type === 'url' || e.type === 'text_url') && e.length > 0)
+    .slice()
+    .sort((a, b) => a.offset - b.offset);
+
+  let out = '';
+  let cursor = 0;
+  for (const e of ents) {
+    if (e.offset < cursor) continue; // skip overlaps
+    if (e.offset > cursor) out += linkifyPlain(text.slice(cursor, e.offset));
+    const visible = text.slice(e.offset, e.offset + e.length);
+    const href = e.type === 'text_url' ? e.url : visible;
+    out += `<a href="${escapeHtml(safeHref(href))}" target="_blank" rel="noopener">${escapeHtml(visible)}</a>`;
+    cursor = e.offset + e.length;
+  }
+  out += linkifyPlain(text.slice(cursor));
+  return out;
 }
 
 function emphasize(title) {
@@ -172,10 +206,9 @@ function renderCard(v, idx) {
   const location = v.location || (v.remote ? 'Remote' : 'не указана');
   const num = String(idx + 1).padStart(2, '0');
   const isNew = v.is_new ? 'is-new' : '';
-  const isHidden = hiddenIds.has(uid) && state.showHidden ? 'is-hidden-marked' : '';
 
   return `
-    <article class="vacancy ${isNew} ${isHidden}" data-uid="${escapeHtml(uid)}">
+    <article class="vacancy ${isNew}" data-uid="${escapeHtml(uid)}" role="button" tabindex="0">
       <div class="v-num">${num}</div>
       <div class="v-body">
         ${v.is_new ? '<div class="v-tags-top"><span class="tag-new">NEW</span></div>' : ''}
@@ -188,13 +221,7 @@ function renderCard(v, idx) {
       </div>
       <div class="v-aside">
         <div class="v-time">${relativeTime(v.date_iso)}</div>
-        <a class="btn-open" href="${escapeHtml(v.link)}" target="_blank" rel="noopener">Открыть →</a>
-        <div class="v-aside-row">
-          ${dupesButton(v)}
-          <button class="btn-hide" type="button" data-action="hide" data-uid="${escapeHtml(uid)}">
-            ${hiddenIds.has(uid) ? 'Вернуть' : 'Скрыть'}
-          </button>
-        </div>
+        ${dupesButton(v)}
       </div>
     </article>`;
 }
@@ -230,14 +257,6 @@ function render() {
   renderedCount = 0;
   visibleCountEl.textContent = currentItems.length;
   root.innerHTML = '';
-
-  // Update hidden-toggle visibility & count.
-  const hiddenCount = hiddenIds.size;
-  hiddenCountEl.textContent = hiddenCount;
-  hiddenToggleEl.hidden = hiddenCount === 0;
-  hiddenToggleEl.textContent = state.showHidden
-    ? `Скрыто: ${hiddenCount} · вернуться к активным`
-    : `Скрыто: ${hiddenCount} · показать`;
 
   updateTabCounts();
   updateResetVisibility();
@@ -300,7 +319,6 @@ document.addEventListener('click', () => closeAllPopovers());
 document.querySelectorAll('.tab').forEach(btn => {
   btn.addEventListener('click', () => {
     state.tab = btn.dataset.tab;
-    state.showHidden = false;
     document.querySelectorAll('.tab').forEach(b => b.classList.toggle('is-active', b === btn));
     render();
   });
@@ -340,17 +358,12 @@ document.querySelector('.reset-btn').addEventListener('click', () => {
   render();
 });
 
-// ---------- Hide / Show hidden ----------
-hiddenToggleEl.addEventListener('click', () => {
-  state.showHidden = !state.showHidden;
-  render();
-});
-
 // Card-level actions (event delegation).
 root.addEventListener('click', e => {
-  // Tooltip toggle for duplicates.
+  // Dupes tooltip — handle separately and don't open the modal.
   const dupesBtn = e.target.closest('[data-action="dupes"]');
-  if (dupesBtn && !e.target.closest('a')) {
+  if (dupesBtn) {
+    if (e.target.closest('a')) return; // link inside tooltip — let it through
     document.querySelectorAll('.btn-dupes.is-open').forEach(b => {
       if (b !== dupesBtn) b.classList.remove('is-open');
     });
@@ -359,15 +372,17 @@ root.addEventListener('click', e => {
     return;
   }
 
-  // Hide / unhide.
-  const hideBtn = e.target.closest('[data-action="hide"]');
-  if (hideBtn) {
-    const uid = hideBtn.dataset.uid;
-    if (hiddenIds.has(uid)) hiddenIds.delete(uid);
-    else hiddenIds.add(uid);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify([...hiddenIds]));
-    render();
-  }
+  // Card click → open modal with full text.
+  const card = e.target.closest('.vacancy');
+  if (card) openModal(card.dataset.uid);
+});
+
+root.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const card = e.target.closest('.vacancy');
+  if (!card) return;
+  e.preventDefault();
+  openModal(card.dataset.uid);
 });
 
 // Close dupes tooltip when clicking outside.
@@ -375,6 +390,63 @@ document.addEventListener('click', e => {
   if (!e.target.closest('.btn-dupes')) {
     document.querySelectorAll('.btn-dupes.is-open').forEach(b => b.classList.remove('is-open'));
   }
+});
+
+// ---------- Modal ----------
+const overlayEl = document.getElementById('modal-overlay');
+const modalContentEl = document.getElementById('modal-content');
+const modalCloseEl = document.getElementById('modal-close');
+
+function openModal(uid) {
+  const v = byUid.get(uid);
+  if (!v) return;
+  modalContentEl.innerHTML = renderModalContent(v);
+  overlayEl.hidden = false;
+  document.body.classList.add('modal-open');
+  modalCloseEl.focus();
+}
+
+function closeModal() {
+  if (overlayEl.hidden) return;
+  overlayEl.hidden = true;
+  document.body.classList.remove('modal-open');
+  modalContentEl.innerHTML = '';
+}
+
+function renderModalContent(v) {
+  const channel = v.channel_username ? `@${v.channel_username}` : (v.channel_title || '');
+  const company = v.company || 'не указана';
+  const location = v.location || (v.remote ? 'Remote' : 'не указана');
+  const date = new Date(v.date_iso);
+  const dateStr = date.toLocaleString('ru-RU', {
+    day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+  });
+  const dupes = (v.duplicates || []).map(d => {
+    const label = d.channel_title || d.channel_username || 'канал';
+    return `<a href="${escapeHtml(d.link)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`;
+  }).join('');
+
+  return `
+    ${v.is_new ? '<div class="v-tags-top"><span class="tag-new">NEW</span></div>' : ''}
+    <h2 class="modal-title" id="modal-title">${emphasize(v.title || '')}</h2>
+    <div class="modal-meta">
+      ${escapeHtml(company)} · ${escapeHtml(location)} · ${escapeHtml(channel)} · <span class="mono">${escapeHtml(dateStr)}</span>
+    </div>
+    <div class="v-tags modal-tags">${tagList(v)}</div>
+    <pre class="modal-text">${renderTextWithLinks(v.text || '', v.entities)}</pre>
+    <div class="modal-actions">
+      <a class="btn-open" href="${escapeHtml(v.link)}" target="_blank" rel="noopener">Открыть в Telegram →</a>
+    </div>
+    ${dupes ? `<div class="modal-dupes"><div class="modal-dupes-label mono">также в:</div>${dupes}</div>` : ''}
+  `;
+}
+
+modalCloseEl.addEventListener('click', closeModal);
+overlayEl.addEventListener('click', e => {
+  if (e.target === overlayEl) closeModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
 });
 
 // ---------- Boot ----------
@@ -388,6 +460,8 @@ function pickInitialTab() {
   if (counts['7d']) return '7d';
   return '30d';
 }
+
+data.forEach(v => byUid.set(vUid(v), v));
 
 const initialTab = pickInitialTab();
 if (initialTab !== '24h') {

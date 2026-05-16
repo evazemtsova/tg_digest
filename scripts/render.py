@@ -31,11 +31,13 @@ def run() -> None:
         autoescape=select_autoescape(["html"]),
     )
     template = env.get_template("index.html.j2")
+    generated_at = datetime.now(timezone.utc).isoformat()
     html = template.render(
         vacancies=vacancies,
         stats=_build_stats(vacancies),
-        generated_at=datetime.now(timezone.utc).isoformat(),
+        generated_at=generated_at,
         data_json=json.dumps(vacancies, ensure_ascii=False),
+        asset_v=generated_at.replace(":", "").replace("-", "")[:13],
     )
     OUTPUT_PATH.write_text(html, encoding="utf-8")
     print(f"[render] wrote {len(vacancies)} vacancies -> {OUTPUT_PATH}")

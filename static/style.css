@@ -98,29 +98,21 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   padding-bottom: 18px;
 }
 
-.masthead-search {
-  display: flex;
-  justify-content: center;
-  padding-top: 4px;
-  border-top: 1px solid var(--hairline);
-  padding-top: 18px;
-}
-
 .search-input {
+  margin-left: auto;
   background: transparent;
   border: none;
   border-bottom: 1px solid var(--line);
-  padding: 6px 4px;
-  font: inherit;
+  padding: 4px 4px 5px;
   font-family: var(--serif);
-  font-size: 15px;
+  font-size: 14px;
   font-style: italic;
-  width: min(420px, 90%);
+  width: 240px;
   color: var(--text);
-  transition: border-color 0.15s;
-  text-align: center;
+  transition: border-color 0.15s, width 0.2s;
 }
 .search-input:focus { outline: none; border-bottom-color: var(--accent); }
+.search-input:focus { width: 280px; }
 .search-input::placeholder { color: var(--text-muted); font-style: italic; }
 
 /* =========================== TABS =========================== */
@@ -258,7 +250,6 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 }
 .filter-toggle input { display: none; }
 
-.filter-dropdown--sort { margin-left: auto; }
 
 .reset-btn {
   background: none; border: none;
@@ -488,8 +479,6 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 
   .masthead { padding: 4px 0 18px; }
   .page-title { font-size: 36px; }
-  .masthead-search { padding-top: 14px; }
-  .search-input { width: 100%; font-size: 14px; }
 
   .tab { padding: 12px 12px; font-size: 10px; }
   .tab-count { font-size: 10px; }
@@ -497,17 +486,21 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   .filters {
     gap: 8px;
     padding: 12px 0;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    -webkit-overflow-scrolling: touch;
-    -webkit-mask-image: linear-gradient(to right, black 88%, transparent 100%);
-    mask-image: linear-gradient(to right, black 88%, transparent 100%);
+    flex-wrap: wrap;
     position: static;
   }
   .filter-dropdown, .filter-toggle { flex-shrink: 0; }
-  .filter-dropdown--sort { margin-left: 0; }
   .filter-trigger { min-height: 36px; }
   .filter-popover { min-width: 200px; }
+  .search-input {
+    order: -1;
+    margin-left: 0;
+    width: 100%;
+    flex-basis: 100%;
+    font-size: 15px;
+    padding: 8px 4px;
+  }
+  .search-input:focus { width: 100%; }
 
   .vacancy { padding: 22px 0 20px; }
   .v-title { font-size: 22px; }

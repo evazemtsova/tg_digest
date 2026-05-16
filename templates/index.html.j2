@@ -22,15 +22,6 @@
   <div class="masthead-dateline mono">
     Personal vacancy digest · Updated {{ generated_at[:10] }} · {{ generated_at[11:16] }} UTC
   </div>
-  <div class="masthead-search">
-    <input
-      type="search"
-      id="search-input"
-      class="search-input"
-      placeholder="Поиск по компании, тексту…"
-      autocomplete="off"
-    >
-  </div>
 </header>
 
 <nav class="tabs" role="tablist">
@@ -89,6 +80,14 @@
   </div>
 
   <button class="reset-btn" hidden type="button">× Сбросить</button>
+
+  <input
+    type="search"
+    id="search-input"
+    class="search-input"
+    placeholder="Поиск по компании, тексту…"
+    autocomplete="off"
+  >
 </div>
 
 <div class="toolbar">

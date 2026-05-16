@@ -137,9 +137,20 @@ def run() -> None:
         if ra != rb:
             parent[rb] = ra
 
+    # Fast prefilter: if the normalized lengths differ by more than (1 - THRESHOLD),
+    # SequenceMatcher.ratio() can't reach THRESHOLD. Skip the expensive call.
+    norm_lens = [len(p["_norm"]) for p in leftover]
+    len_tol = 1.0 - THRESHOLD
+
     for i in range(n):
+        li = norm_lens[i]
+        if li == 0:
+            continue
         for j in range(i + 1, n):
             if find(i) == find(j):
+                continue
+            lj = norm_lens[j]
+            if lj == 0 or abs(li - lj) / max(li, lj) > len_tol:
                 continue
             if _similarity(leftover[i]["_norm"], leftover[j]["_norm"]) >= THRESHOLD:
                 union(i, j)

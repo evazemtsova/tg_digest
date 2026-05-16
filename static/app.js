@@ -13,9 +13,12 @@ const state = {
 };
 
 const root = document.getElementById('vacancies');
-const visibleCountEl = document.getElementById('visible-count');
 const searchIndicatorEl = document.getElementById('search-indicator');
 const searchIndicatorQEl = document.getElementById('search-indicator-q');
+const filtersToggleEl = document.getElementById('filters-toggle');
+const filtersCountEl = document.getElementById('filters-count');
+const controlsEl = document.querySelector('.controls');
+const resetBtnEl = document.querySelector('.reset-btn');
 
 const FILTER_LABELS = {
   location: { all: 'Все', moscow: 'Москва', spb: 'СПб', regions: 'Регионы', remote: 'Remote' },
@@ -214,7 +217,7 @@ function metaLine(v) {
   return parts.map(escapeHtml).join(' · ');
 }
 
-function renderCard(v, idx) {
+function renderCard(v) {
   const uid = vUid(v);
   const isNew = v.is_new ? 'is-new' : '';
   const channel = v.channel_username ? `@${v.channel_username}` : (v.channel_title || '');
@@ -254,7 +257,7 @@ function appendBatch() {
     document.getElementById('scroll-sentinel')?.remove();
     return;
   }
-  const html = next.map((v, i) => renderCard(v, renderedCount + i)).join('');
+  const html = next.map(renderCard).join('');
   document.getElementById('scroll-sentinel')?.remove();
   root.insertAdjacentHTML('beforeend', html);
   renderedCount += next.length;
@@ -268,21 +271,24 @@ function appendBatch() {
 }
 
 function render() {
+  scrollObserver?.disconnect();
   currentItems = filtered();
   renderedCount = 0;
-  visibleCountEl.textContent = currentItems.length;
   root.innerHTML = '';
 
   // Active-search indicator next to the count.
-  if (state.query) {
-    searchIndicatorQEl.textContent = state.query;
-    searchIndicatorEl.hidden = false;
-  } else {
-    searchIndicatorEl.hidden = true;
+  if (searchIndicatorEl) {
+    if (state.query) {
+      searchIndicatorQEl.textContent = state.query;
+      searchIndicatorEl.hidden = false;
+    } else {
+      searchIndicatorEl.hidden = true;
+    }
   }
 
   updateTabCounts();
   updateResetVisibility();
+  updateFiltersBadge();
 
   if (!currentItems.length) {
     const canReset = state.location !== 'all' || state.grade !== 'all' ||
@@ -296,7 +302,7 @@ function render() {
         ${canReset ? '<button class="empty-reset" type="button" id="empty-reset">Сбросить фильтры</button>' : ''}
       </div>`;
     document.getElementById('empty-reset')?.addEventListener('click', () => {
-      document.querySelector('.reset-btn').click();
+      resetBtnEl?.click();
     });
     return;
   }
@@ -305,8 +311,6 @@ function render() {
     scrollObserver = new IntersectionObserver(entries => {
       if (entries.some(e => e.isIntersecting)) appendBatch();
     }, { rootMargin: '600px 0px' });
-  } else {
-    scrollObserver.disconnect();
   }
   appendBatch();
 }
@@ -333,16 +337,19 @@ function setFilterValue(filter, value) {
 
 document.querySelectorAll('.filter-dropdown').forEach(dropdown => {
   const trigger = dropdown.querySelector('.filter-trigger');
+  const popover = dropdown.querySelector('.filter-popover');
+  if (!trigger || !popover) return; // skip non-popover dropdowns (e.g. filters-toggle wrapper)
   trigger.addEventListener('click', (e) => {
     e.stopPropagation();
     const wasOpen = dropdown.classList.contains('is-open');
     closeAllPopovers();
     if (!wasOpen) dropdown.classList.add('is-open');
   });
-  dropdown.querySelector('.filter-popover').addEventListener('click', e => {
+  popover.addEventListener('click', e => {
     const item = e.target.closest('.popover-item');
     if (!item) return;
     const filter = dropdown.dataset.filter;
+    if (filter === 'period') return; // handled by setPeriod() separately
     setFilterValue(filter, item.dataset.value);
     render();
   });
@@ -350,13 +357,40 @@ document.querySelectorAll('.filter-dropdown').forEach(dropdown => {
 
 document.addEventListener('click', () => closeAllPopovers());
 
-// ---------- Tabs ----------
-document.querySelectorAll('.tab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    state.tab = btn.dataset.tab;
-    document.querySelectorAll('.tab').forEach(b => b.classList.toggle('is-active', b === btn));
-    render();
+// ---------- Period (tabs on desktop, dropdown on mobile) ----------
+const PERIOD_LABELS = { '24h': '24ч', '7d': '7 дней', '30d': '30 дней', archive: 'Архив' };
+
+function syncPeriodUI(value) {
+  state.tab = value;
+  document.querySelectorAll('.tab').forEach(b => {
+    const active = b.dataset.tab === value;
+    b.classList.toggle('is-active', active);
+    b.setAttribute('aria-pressed', String(active));
   });
+  const dd = document.querySelector('.filter-dropdown--period');
+  if (dd) {
+    const valueEl = dd.querySelector('.filter-value');
+    if (valueEl) valueEl.textContent = PERIOD_LABELS[value] || value;
+    dd.querySelectorAll('.popover-item').forEach(item =>
+      item.classList.toggle('is-active', item.dataset.value === value)
+    );
+    dd.classList.remove('is-open');
+  }
+}
+
+function setPeriod(value) {
+  syncPeriodUI(value);
+  render();
+}
+
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => setPeriod(btn.dataset.tab));
+});
+
+document.querySelector('.filter-dropdown--period .filter-popover')?.addEventListener('click', e => {
+  const item = e.target.closest('.popover-item');
+  if (!item) return;
+  setPeriod(item.dataset.value);
 });
 
 // ---------- ML toggle ----------
@@ -366,23 +400,79 @@ document.getElementById('ml-toggle').addEventListener('change', e => {
 });
 
 // ---------- Search ----------
+const SEARCH_DEBOUNCE_MS = 150;
 let searchTimer = null;
 document.getElementById('search-input').addEventListener('input', e => {
   clearTimeout(searchTimer);
   searchTimer = setTimeout(() => {
     state.query = e.target.value.trim();
     render();
-  }, 150);
+  }, SEARCH_DEBOUNCE_MS);
 });
 
-// ---------- Reset ----------
-function updateResetVisibility() {
-  const active = state.location !== 'all' || state.grade !== 'all' ||
-                 state.mlOnly || state.query || state.sort !== 'date';
-  document.querySelector('.reset-btn').hidden = !active;
+// ---------- Reset & filters toggle ----------
+function activeFilterCount() {
+  let n = 0;
+  if (state.location !== 'all') n++;
+  if (state.grade !== 'all') n++;
+  if (state.mlOnly) n++;
+  return n;
 }
 
-document.querySelector('.reset-btn').addEventListener('click', () => {
+function updateResetVisibility() {
+  if (!resetBtnEl) return;
+  const active = state.location !== 'all' || state.grade !== 'all' ||
+                 state.mlOnly || state.query || state.sort !== 'date';
+  resetBtnEl.hidden = !active;
+}
+
+function updateFiltersBadge() {
+  const n = activeFilterCount();
+  if (n > 0) {
+    filtersCountEl.textContent = '· ' + n;
+    filtersCountEl.hidden = false;
+    filtersToggleEl.classList.add('has-active');
+  } else {
+    filtersCountEl.hidden = true;
+    filtersToggleEl.classList.remove('has-active');
+  }
+}
+
+function setFiltersPanelOpen(open) {
+  const apply = () => {
+    controlsEl.classList.toggle('filters-open', open);
+    filtersToggleEl.classList.toggle('is-open', open);
+    filtersToggleEl.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('filters-open', open);
+  };
+  // View Transitions on desktop look great; on mobile the sheet has its own slide-in
+  // animation, and view transitions can fight with position:fixed elements.
+  const isMobile = window.matchMedia('(max-width: 767px)').matches;
+  if (!isMobile && document.startViewTransition) {
+    document.startViewTransition(apply);
+  } else {
+    apply();
+  }
+}
+
+function isFiltersOpen() { return controlsEl.classList.contains('filters-open'); }
+
+filtersToggleEl.addEventListener('click', e => {
+  e.stopPropagation();
+  setFiltersPanelOpen(!isFiltersOpen());
+});
+
+document.addEventListener('click', e => {
+  if (!isFiltersOpen()) return;
+  if (e.target.closest('#filters-inline') || e.target.closest('#filters-toggle')) return;
+  setFiltersPanelOpen(false);
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && isFiltersOpen()) setFiltersPanelOpen(false);
+});
+
+resetBtnEl?.addEventListener('click', () => {
   setFilterValue('location', 'all');
   setFilterValue('grade', 'all');
   setFilterValue('sort', 'date');
@@ -431,10 +521,14 @@ document.addEventListener('click', e => {
 const overlayEl = document.getElementById('modal-overlay');
 const modalContentEl = document.getElementById('modal-content');
 const modalCloseEl = document.getElementById('modal-close');
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input, select, textarea';
+let modalOpenerEl = null;
 
 function openModal(uid) {
   const v = byUid.get(uid);
   if (!v) return;
+  modalOpenerEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
   modalContentEl.innerHTML = renderModalContent(v);
   overlayEl.hidden = false;
   document.body.classList.add('modal-open');
@@ -446,7 +540,29 @@ function closeModal() {
   overlayEl.hidden = true;
   document.body.classList.remove('modal-open');
   modalContentEl.innerHTML = '';
+  // Return focus to the card (or whatever element opened the modal) so keyboard
+  // users don't get dropped at the top of the page.
+  if (modalOpenerEl && document.contains(modalOpenerEl)) {
+    modalOpenerEl.focus();
+  }
+  modalOpenerEl = null;
 }
+
+// Focus trap: cycle Tab/Shift+Tab within the modal while it's open.
+overlayEl.addEventListener('keydown', e => {
+  if (e.key !== 'Tab') return;
+  const focusables = overlayEl.querySelectorAll(FOCUSABLE_SELECTOR);
+  if (!focusables.length) return;
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault();
+    first.focus();
+  }
+});
 
 function renderModalContent(v) {
   const date = new Date(v.date_iso);
@@ -501,12 +617,5 @@ function pickInitialTab() {
 
 data.forEach(v => byUid.set(vUid(v), v));
 
-const initialTab = pickInitialTab();
-if (initialTab !== '24h') {
-  state.tab = initialTab;
-  document.querySelectorAll('.tab').forEach(b => {
-    b.classList.toggle('is-active', b.dataset.tab === initialTab);
-  });
-}
-
+syncPeriodUI(pickInitialTab());
 render();

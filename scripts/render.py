@@ -13,17 +13,6 @@ TEMPLATE_DIR = ROOT / "templates"
 OUTPUT_PATH = ROOT / "index.html"
 
 
-def _build_stats(vacancies: list[dict]) -> dict:
-    channels = {v.get("channel_username") or v.get("channel_title") for v in vacancies}
-    channels.discard(None)
-    return {
-        "channels": len(channels),
-        "new_24h": sum(1 for v in vacancies if v.get("is_new")),
-        "archived": sum(1 for v in vacancies if v.get("is_archived")),
-        "total": len(vacancies),
-    }
-
-
 def run() -> None:
     vacancies = json.loads(VACANCIES_PATH.read_text(encoding="utf-8"))
     env = Environment(
@@ -34,7 +23,6 @@ def run() -> None:
     generated_at = datetime.now(timezone.utc).isoformat()
     html = template.render(
         vacancies=vacancies,
-        stats=_build_stats(vacancies),
         generated_at=generated_at,
         data_json=json.dumps(vacancies, ensure_ascii=False),
         asset_v=generated_at.replace(":", "").replace("-", "")[:13],

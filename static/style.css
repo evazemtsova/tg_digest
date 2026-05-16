@@ -9,13 +9,19 @@
   --hairline: rgba(26, 26, 26, 0.18);
   --card-bg: transparent;
   --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  /* Inline SVG noise — used by body and sticky surfaces to keep the paper grain consistent. */
+  --paper-noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch' seed='3'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.1'/></svg>");
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: var(--serif);
-  background: var(--bg);
+  background-color: var(--bg);
+  /* Subtle paper grain. Tile (280px) avoids visible repetition, opacity is subliminal. */
+  background-image: var(--paper-noise);
+  background-repeat: repeat;
+  background-attachment: fixed;
   color: var(--text);
   font-size: 17px;
   line-height: 1.55;
@@ -38,8 +44,6 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 .masthead {
   padding: 8px 0 24px;
   position: relative;
-  border-bottom: 3px double var(--line);
-  margin-bottom: 8px;
 }
 
 .masthead-top {
@@ -47,7 +51,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   justify-content: space-between;
   align-items: center;
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--hairline);
+  border-bottom: 3px double var(--line);
   margin-bottom: 20px;
   color: var(--text-muted);
   font-size: 11px;
@@ -98,90 +102,166 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   padding-bottom: 18px;
 }
 
-.search-input {
-  margin-left: auto;
-  background: transparent;
-  border: none;
+/* =========================== MASTHEAD SEARCH (thin centered line) =========================== */
+.masthead-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: min(360px, 90%);
+  margin: 14px auto 12px;
+  padding: 6px 4px;
   border-bottom: 1px solid var(--line);
-  padding: 4px 4px 5px;
-  font-family: var(--serif);
-  font-size: 14px;
-  font-style: italic;
-  width: 240px;
-  color: var(--text);
-  transition: border-color 0.15s, width 0.2s;
+  transition: border-bottom-color 0.15s;
 }
-.search-input:focus { outline: none; border-bottom-color: var(--accent); }
-.search-input:focus { width: 280px; }
-.search-input::placeholder { color: var(--text-muted); font-style: italic; }
+.masthead-search:focus-within {
+  border-bottom-color: var(--accent);
+}
 
-/* =========================== TABS =========================== */
-.tabs {
-  display: flex; gap: 0;
-  border-bottom: 1px solid var(--line);
-  margin-top: 16px;
-  overflow-x: auto;
-}
-.tab {
-  background: none; border: none;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 14px 18px;
-  cursor: pointer;
-  color: var(--text-muted);
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-  white-space: nowrap;
+.masthead-search-icon {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+  line-height: 1;
 }
-.tab:hover { color: var(--text); }
-.tab.is-active {
+.masthead-search-icon svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.masthead-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 15px;
   color: var(--text);
-  border-bottom-color: var(--accent);
-  font-weight: 500;
+  padding: 0;
+  min-width: 0;
+  line-height: 1.4;
+  text-align: center;
+}
+.masthead-search-input::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* =========================== CONTROLS (tabs + filters in one row) =========================== */
+.controls {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 0;
+  border-bottom: 3px double var(--line);
+  position: sticky; top: 0;
+  background-color: var(--bg);
+  background-image: var(--paper-noise);
+  z-index: 10;
+}
+.controls > * { flex-shrink: 0; }
+.controls .filter-dropdown--filters { margin-left: auto; }
+
+/* =========================== TABS (desktop) =========================== */
+.tabs {
+  display: flex; flex-wrap: nowrap; gap: 10px;
+  align-items: center;
+}
+
+/* Period dropdown is mobile-only — hidden on desktop. */
+.filter-dropdown--period { display: none; }
+
+/* =========================== CHIP BASE =========================== */
+/* Shared base for .tab, .filter-trigger, .filter-toggle — same outline-style
+   pill button. Per-variant overrides handled below. */
+.tab,
+.filter-trigger,
+.filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  box-sizing: border-box;
+  background: transparent;
+  border: 1px solid var(--line-soft);
+  padding: 0 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: var(--text);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.tab:hover,
+.filter-trigger:hover,
+.filter-toggle:hover { border-color: var(--text); }
+
+.tab.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 .tab-count {
   font-size: 10px;
   color: var(--text-muted);
-  border: none;
-  padding: 0;
   letter-spacing: 0.04em;
 }
-.tab.is-active .tab-count { color: var(--accent); }
+.tab.is-active .tab-count { color: var(--accent); opacity: 0.7; }
 
-/* =========================== FILTERS =========================== */
-.filters {
-  display: flex; flex-wrap: wrap; gap: 10px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--hairline);
+/* =========================== FILTERS TOGGLE =========================== */
+/* The HTML uses class="filter-trigger filters-toggle" so the chip base styles
+   come from .filter-trigger. Only state-specific deltas live here. */
+.filters-toggle.is-open {
+  border-color: var(--text);
+  background: var(--card-bg);
+}
+.filters-toggle.has-active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.filters-toggle.has-active .filter-label,
+.filters-toggle.has-active .filter-value { color: var(--accent); }
+.filters-count {
+  color: var(--accent);
+  letter-spacing: 0;
+}
+.filters-toggle.is-open .filter-caret { transform: rotate(180deg); }
+.filter-caret { transition: transform 0.2s; }
+
+/* =========================== INLINE FILTERS (revealed by Filters toggle) =========================== */
+.filters-inline {
+  display: none;
   align-items: center;
-  position: sticky; top: 0;
-  background: var(--bg);
-  z-index: 10;
+  gap: 8px;
+}
+.filters-inline > * { flex-shrink: 0; }
+.controls.filters-open .filters-inline {
+  display: inline-flex;
+  animation: filtersFadeIn 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes filtersFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Smooth crossfade between filter states (View Transitions API).
+   Works in Chrome/Edge 111+, Safari 18+. Older browsers get the CSS animation fallback. */
+@supports (view-transition-name: none) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.32s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
 }
 
 .filter-dropdown { position: relative; }
-
-.filter-trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: transparent;
-  border: 1px solid var(--line-soft);
-  padding: 6px 12px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.15s;
-  color: var(--text);
-}
-.filter-trigger:hover { border-color: var(--text); }
 
 .filter-dropdown.is-open .filter-trigger {
   border-color: var(--text);
@@ -209,6 +289,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   z-index: 20;
   padding: 4px;
 }
+.filter-dropdown--sort .filter-popover { left: auto; right: 0; }
 .filter-dropdown.is-open .filter-popover { display: block; }
 
 .popover-item {
@@ -228,22 +309,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   font-weight: 600;
 }
 
-.filter-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border: 1px solid var(--line-soft);
-  background: transparent;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  user-select: none;
-  color: var(--text);
-}
-.filter-toggle:hover { border-color: var(--text); }
+.filter-toggle { user-select: none; }
 .filter-toggle:has(input:checked) {
   border-color: var(--accent);
   color: var(--accent);
@@ -281,13 +347,19 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 
 .vacancy {
   display: block;
-  padding: 28px 0 24px;
+  padding: 28px 20px 24px;
+  margin: 0 -20px;
   border-bottom: 1px solid var(--hairline);
-  transition: opacity 0.15s;
+  transition: background-color 0.15s, box-shadow 0.15s;
   cursor: pointer;
   position: relative;
 }
-.vacancy:hover { opacity: 0.78; }
+.vacancy:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+.vacancy:hover .v-title { color: var(--accent); }
+.v-title { transition: color 0.15s; }
 .vacancy:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .vacancy:first-child { padding-top: 32px; }
 
@@ -480,32 +552,131 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   .masthead { padding: 4px 0 18px; }
   .page-title { font-size: 36px; }
 
-  .tab { padding: 12px 12px; font-size: 10px; }
+  .masthead-search { margin: 12px auto; padding: 8px 4px; }
+  .masthead-search-input { font-size: 16px; } /* 16px prevents iOS zoom-on-focus */
+  .masthead-search-icon svg { width: 16px; height: 16px; }
+
+  /* Bigger tap targets (Apple HIG: ~44px) */
+  .tab,
+  .filter-trigger,
+  .filter-toggle {
+    height: 40px;
+    padding: 0 14px;
+  }
   .tab-count { font-size: 10px; }
 
-  .filters {
-    gap: 8px;
-    padding: 12px 0;
-    flex-wrap: wrap;
-    position: static;
-  }
-  .filter-dropdown, .filter-toggle { flex-shrink: 0; }
-  .filter-trigger { min-height: 36px; }
-  .filter-popover { min-width: 200px; }
-  .search-input {
-    order: -1;
-    margin-left: 0;
-    width: 100%;
-    flex-basis: 100%;
-    font-size: 15px;
-    padding: 8px 4px;
-  }
-  .search-input:focus { width: 100%; }
+  /* On mobile: hide the chip-tabs, show the period dropdown. All three
+     controls (Период / Фильтры / Сортировка) live in one row. */
+  .controls .tabs { display: none; }
+  .filter-dropdown--period { display: inline-flex; }
 
-  .vacancy { padding: 22px 0 20px; }
+  .controls {
+    gap: 8px;
+    padding: 10px 0;
+    flex-wrap: nowrap;
+  }
+  /* Period sits on the left, Filters pushed right by its existing margin-left:auto. */
+  .controls .filter-dropdown--period { margin-right: auto; }
+
+  /* Filter popover from a chip in the row 2 just drops below the chip */
+  .filter-popover { min-width: 200px; }
+
+  /* Match the body's 16px side padding so the hover-tint doesn't bleed off screen */
+  .vacancy {
+    padding: 22px 16px 20px;
+    margin: 0 -16px;
+  }
   .v-title { font-size: 22px; }
   .v-byline, .v-desc { font-size: 15px; }
   .v-footer { gap: 10px; }
+
+  /* ----- Bottom sheet for filters on mobile ----- */
+  .controls.filters-open::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 26, 26, 0.5);
+    z-index: 99;
+    animation: filtersBackdropFade 0.2s ease-out;
+  }
+  @keyframes filtersBackdropFade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .controls.filters-open .filters-inline {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--bg);
+    background-image: var(--paper-noise);
+    border-top: 3px double var(--line);
+    padding: 20px 16px calc(28px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    z-index: 100;
+    box-shadow: 0 -10px 40px rgba(26, 26, 26, 0.18);
+    animation: filtersSheetUp 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  @keyframes filtersSheetUp {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+
+  /* Sheet header (small handle/title before chips) */
+  .controls.filters-open .filters-inline::before {
+    content: 'Фильтры';
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding-bottom: 12px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--hairline);
+    text-align: center;
+  }
+
+  /* Stretch chips inside the sheet to full width */
+  .controls.filters-open .filters-inline > .filter-dropdown,
+  .controls.filters-open .filters-inline > .filter-toggle,
+  .controls.filters-open .filters-inline > .filter-trigger {
+    width: 100%;
+  }
+  .controls.filters-open .filters-inline .filter-trigger,
+  .controls.filters-open .filters-inline .filter-toggle {
+    height: 48px;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+  /* Reset button at the bottom, less heavy */
+  .controls.filters-open .filters-inline .reset-btn {
+    margin-top: 6px;
+    text-align: center;
+    padding: 12px;
+    border-top: 1px solid var(--hairline);
+  }
+
+  /* Popovers inside the sheet stick to the chip width */
+  .controls.filters-open .filters-inline .filter-popover {
+    width: 100%;
+    min-width: 0;
+    left: 0;
+    right: auto;
+  }
+  .controls.filters-open .filters-inline .popover-item {
+    padding: 12px 16px;
+    font-size: 16px;
+  }
+
+  /* Lock body scroll while sheet is open */
+  body.filters-open { overflow: hidden; }
 
   .modal { padding: 36px 22px 24px; max-height: 92vh; }
   .modal-title { font-size: 24px; padding-right: 36px; }

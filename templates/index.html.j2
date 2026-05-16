@@ -19,19 +19,59 @@
     <span class="masthead-date mono">{{ generated_at[:4] }} · {{ generated_at[5:7] }} · {{ generated_at[8:10] }}</span>
   </div>
   <h1 class="page-title">Product jobs, <em>from Telegram</em></h1>
+  <div class="masthead-search">
+    <span class="masthead-search-icon" aria-hidden="true">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+        <circle cx="6.5" cy="6.5" r="4.2"/>
+        <line x1="9.6" y1="9.6" x2="14" y2="14" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <input
+      type="search"
+      id="search-input"
+      class="masthead-search-input"
+      placeholder="Search vacancies…"
+      autocomplete="off"
+    >
+  </div>
   <div class="masthead-dateline mono">
-    Personal vacancy digest · Updated {{ generated_at[:10] }} · {{ generated_at[11:16] }} UTC
+    Updated {{ generated_at[:10] }} · {{ generated_at[11:16] }} UTC
   </div>
 </header>
 
-<nav class="tabs" role="tablist">
-  <button class="tab is-active" data-tab="24h" role="tab">24ч <span class="tab-count mono" data-count="24h">0</span></button>
-  <button class="tab" data-tab="7d" role="tab">7 дней <span class="tab-count mono" data-count="7d">0</span></button>
-  <button class="tab" data-tab="30d" role="tab">30 дней <span class="tab-count mono" data-count="30d">0</span></button>
-  <button class="tab" data-tab="archive" role="tab">Архив <span class="tab-count mono" data-count="archive">0</span></button>
+<div class="controls">
+
+<nav class="tabs" aria-label="Временной период">
+  <button class="tab is-active" data-tab="24h" type="button" aria-pressed="true">24ч <span class="tab-count mono" data-count="24h">0</span></button>
+  <button class="tab" data-tab="7d" type="button" aria-pressed="false">7 дней <span class="tab-count mono" data-count="7d">0</span></button>
+  <button class="tab" data-tab="30d" type="button" aria-pressed="false">30 дней <span class="tab-count mono" data-count="30d">0</span></button>
+  <button class="tab" data-tab="archive" type="button" aria-pressed="false">Архив <span class="tab-count mono" data-count="archive">0</span></button>
 </nav>
 
-<div class="filters">
+<div class="filter-dropdown filter-dropdown--period" data-filter="period">
+  <button class="filter-trigger" type="button">
+    <span class="filter-label mono">ПЕРИОД</span>
+    <span class="filter-value">24ч</span>
+    <span class="filter-caret">▾</span>
+  </button>
+  <div class="filter-popover">
+    <button class="popover-item is-active" data-value="24h">24ч</button>
+    <button class="popover-item" data-value="7d">7 дней</button>
+    <button class="popover-item" data-value="30d">30 дней</button>
+    <button class="popover-item" data-value="archive">Архив</button>
+  </div>
+</div>
+
+<div class="filter-dropdown filter-dropdown--filters">
+  <button class="filter-trigger filters-toggle" id="filters-toggle" type="button" aria-expanded="false" aria-controls="filters-inline">
+    <span class="filter-label mono">☰</span>
+    <span class="filter-value">Фильтры</span>
+    <span class="filters-count mono" id="filters-count" hidden></span>
+    <span class="filter-caret">▾</span>
+  </button>
+</div>
+
+<div class="filters-inline" id="filters-inline" role="dialog" aria-modal="true" aria-label="Фильтры вакансий">
   <div class="filter-dropdown" data-filter="location">
     <button class="filter-trigger" type="button">
       <span class="filter-label mono">ЛОКАЦИЯ</span>
@@ -67,32 +107,25 @@
     <span class="mono">ТОЛЬКО ML/AI</span>
   </label>
 
-  <div class="filter-dropdown filter-dropdown--sort" data-filter="sort">
-    <button class="filter-trigger" type="button">
-      <span class="filter-label mono">↓</span>
-      <span class="filter-value">По дате</span>
-      <span class="filter-caret">▾</span>
-    </button>
-    <div class="filter-popover">
-      <button class="popover-item is-active" data-value="date">По дате (новые)</button>
-      <button class="popover-item" data-value="grade">По грейду (Head → Junior)</button>
-    </div>
-  </div>
-
   <button class="reset-btn" hidden type="button">× Сбросить</button>
+</div>
 
-  <input
-    type="search"
-    id="search-input"
-    class="search-input"
-    placeholder="Поиск по компании, тексту…"
-    autocomplete="off"
-  >
+<div class="filter-dropdown filter-dropdown--sort" data-filter="sort">
+  <button class="filter-trigger" type="button">
+    <span class="filter-label mono">↓</span>
+    <span class="filter-value">По дате</span>
+    <span class="filter-caret">▾</span>
+  </button>
+  <div class="filter-popover">
+    <button class="popover-item is-active" data-value="date">По дате (новые)</button>
+    <button class="popover-item" data-value="grade">По грейду (Head → Junior)</button>
+  </div>
+</div>
+
 </div>
 
 <div class="toolbar">
-  <span class="count mono"><span id="visible-count">0</span> из {{ vacancies|length }}</span>
-  <span class="search-indicator mono" id="search-indicator" hidden>· поиск: «<span id="search-indicator-q"></span>»</span>
+  <span class="search-indicator mono" id="search-indicator" hidden>поиск: «<span id="search-indicator-q"></span>»</span>
 </div>
 
 <main class="vacancies" id="vacancies"></main>

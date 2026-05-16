@@ -99,7 +99,6 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   color: var(--text-muted);
   font-size: 11px;
   letter-spacing: 0.12em;
-  padding-bottom: 18px;
 }
 
 /* =========================== MASTHEAD SEARCH (thin centered line) =========================== */
@@ -357,7 +356,6 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 .vacancy:hover .v-title { color: var(--accent); }
 .v-title { transition: color 0.15s; }
 .vacancy:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.vacancy:first-child { padding-top: 32px; }
 
 .v-kicker {
   display: inline-block;
@@ -568,16 +566,34 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 
   .controls {
     gap: 8px;
-    padding: 10px 0;
+    padding: 10px 0 14px;
     flex-wrap: nowrap;
   }
-  /* Period sits on the left, Filters pushed right by its existing margin-left:auto. */
+  /* Period left, Filters + Sort cluster right (auto-margins). */
   .controls .filter-dropdown--period { margin-right: auto; }
+
+  /* Strip verbose chip labels on mobile so all three chips fit one row.
+     Period keeps its current value (e.g. "7 дней"), filters and sort
+     collapse to just the icon + caret (and active filter count badge). */
+  .filter-dropdown--period .filter-label,
+  .filter-dropdown--filters .filter-value,
+  .filter-dropdown--sort .filter-value { display: none; }
+
+  /* When labels are just icons, scale them up so they read as buttons. */
+  .filter-dropdown--filters .filter-label,
+  .filter-dropdown--sort .filter-label {
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 1;
+  }
 
   /* Filter popover from a chip in the row 2 just drops below the chip */
   .filter-popover { min-width: 200px; }
 
-  .vacancy { padding: 22px 8px 20px; }
+  /* Horizontal padding (14px) matches mobile chip text inset
+     (chip border 1px + chip padding 14px). Text aligns vertically
+     with chip text in the controls above. */
+  .vacancy { padding: 20px 14px; }
   .v-title { font-size: 22px; }
   .v-byline, .v-desc { font-size: 15px; }
   .v-footer { gap: 10px; }
@@ -650,8 +666,11 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   /* Reset button at the bottom, less heavy */
   .controls.filters-open .filters-inline .reset-btn {
     margin-top: 6px;
-    text-align: center;
-    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 12px;
     border-top: 1px solid var(--hairline);
   }
 
@@ -672,20 +691,46 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 
   /* On mobile, scroll only the overlay (one scroll context).
      The .modal-text inner scroll is dropped and the panel grows naturally. */
-  .modal-overlay { padding: 16px; }
+  .modal-overlay { padding: 12px; }
   .modal {
-    padding: 24px 18px 20px;
+    padding: 16px 16px 20px;
     max-height: none;
   }
-  .modal-title {
-    font-size: 20px;
-    line-height: 1.2;
+  .modal-meta-bar {
+    font-size: 11px;
+    letter-spacing: 0.06em;
     padding-right: 36px;
     margin-bottom: 8px;
   }
-  .modal-byline { font-size: 15px; margin-bottom: 6px; }
-  .modal-stamp { margin-bottom: 14px; padding-bottom: 14px; }
-  .modal-tags { margin-bottom: 16px; }
+  /* On mobile, switch the title to sans-serif at a much smaller size.
+     Serif headlines work in print at 24px+, on a 360px screen at 15px
+     sans-serif is more readable and 4-6x more compact vertically. */
+  .modal-title {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+    padding-right: 36px;
+    margin-bottom: 4px;
+  }
+  .modal-byline { font-size: 12px; margin-bottom: 10px; }
+  .modal-tags {
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+  }
+  /* Compact, filled tags on mobile — no border, lighter visual weight. */
+  .modal-tags .tag {
+    border: none;
+    background: var(--hairline);
+    color: var(--text);
+    font-size: 10px;
+    padding: 3px 7px;
+  }
+  .modal-tags .tag-ml {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
   .modal-text {
     font-size: 15px;
     line-height: 1.6;
@@ -694,12 +739,13 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
     padding-right: 0;
     margin-bottom: 18px;
   }
+  /* Dropcap off on mobile: ::first-letter applies to the first graphem
+     even if it's an emoji, which breaks layout. */
   .modal-text::first-letter {
-    font-size: 2.8em;
-    padding-right: 8px;
+    all: unset;
   }
   .modal-actions { margin-bottom: 16px; }
-  .modal-close { top: 8px; right: 8px; }
+  .modal-close { top: 10px; right: 10px; }
 }
 
 /* =========================== MODAL =========================== */
@@ -759,17 +805,25 @@ body.modal-open { overflow: hidden; }
   margin-bottom: 8px;
 }
 
-.modal-stamp {
-  display: inline-flex;
-  gap: 8px;
+.modal-meta-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 8px;
   color: var(--text-muted);
+  font-size: 0.78em;
   letter-spacing: 0.08em;
-  margin-bottom: 18px;
-  padding-bottom: 18px;
+  margin-bottom: 10px;
+  padding-right: 40px;
+}
+.modal-meta-new { color: var(--accent); font-weight: 500; letter-spacing: 0.12em; }
+.modal-meta-sep { opacity: 0.5; }
+
+.modal-tags {
+  margin-bottom: 22px;
+  padding-bottom: 22px;
   border-bottom: 1px solid var(--hairline);
 }
-
-.modal-tags { margin-bottom: 22px; }
 
 .modal-text {
   font-family: var(--serif);

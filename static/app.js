@@ -567,7 +567,7 @@ overlayEl.addEventListener('keydown', e => {
 function renderModalContent(v) {
   const date = new Date(v.date_iso);
   const dateStr = date.toLocaleString('ru-RU', {
-    day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
   });
   const channel = v.channel_username ? `@${v.channel_username}` : (v.channel_title || '');
   const byline = bylineLine(v);
@@ -578,14 +578,14 @@ function renderModalContent(v) {
   }).join('');
 
   return `
-    ${v.is_new ? '<div class="v-kicker mono">New</div>' : ''}
-    <h2 class="modal-title" id="modal-title">${escapeHtml(v.title || '')}</h2>
-    ${byline ? `<div class="modal-byline">${byline}</div>` : ''}
-    <div class="modal-stamp mono">
+    <div class="modal-meta-bar mono">
+      ${v.is_new ? '<span class="modal-meta-new">New</span><span class="modal-meta-sep">·</span>' : ''}
       <span>${escapeHtml(channel)}</span>
-      <span>·</span>
+      <span class="modal-meta-sep">·</span>
       <span>${escapeHtml(dateStr)}</span>
     </div>
+    <h2 class="modal-title" id="modal-title">${escapeHtml(v.title || '')}</h2>
+    ${byline ? `<div class="modal-byline">${byline}</div>` : ''}
     ${tags ? `<div class="v-tags modal-tags">${tags}</div>` : ''}
     <div class="modal-text">${renderTextWithLinks(v.text || '', v.entities)}</div>
     <div class="modal-actions">

@@ -189,8 +189,8 @@ function tagList(v) {
 function bylineLine(v) {
   const company = v.company || '';
   const location = v.location || (v.remote ? 'Remote' : '');
-  if (company && location) return `By <span class="byline-company">${escapeHtml(company)}</span> — ${escapeHtml(location)}.`;
-  if (company) return `By <span class="byline-company">${escapeHtml(company)}</span>.`;
+  if (company && location) return `<span class="byline-company">${escapeHtml(company)}</span> — ${escapeHtml(location)}.`;
+  if (company) return `<span class="byline-company">${escapeHtml(company)}</span>.`;
   if (location) return escapeHtml(location) + '.';
   return '';
 }

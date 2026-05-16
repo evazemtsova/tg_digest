@@ -347,17 +347,13 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 
 .vacancy {
   display: block;
-  padding: 28px 20px 24px;
-  margin: 0 -20px;
+  padding: 28px 12px 24px;
   border-bottom: 1px solid var(--hairline);
-  transition: background-color 0.15s, box-shadow 0.15s;
+  transition: background-color 0.15s;
   cursor: pointer;
   position: relative;
 }
-.vacancy:hover {
-  background-color: rgba(255, 255, 255, 0.6);
-  box-shadow: inset 3px 0 0 var(--accent);
-}
+.vacancy:hover { background-color: rgba(255, 255, 255, 0.32); }
 .vacancy:hover .v-title { color: var(--accent); }
 .v-title { transition: color 0.15s; }
 .vacancy:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
@@ -581,11 +577,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   /* Filter popover from a chip in the row 2 just drops below the chip */
   .filter-popover { min-width: 200px; }
 
-  /* Match the body's 16px side padding so the hover-tint doesn't bleed off screen */
-  .vacancy {
-    padding: 22px 16px 20px;
-    margin: 0 -16px;
-  }
+  .vacancy { padding: 22px 8px 20px; }
   .v-title { font-size: 22px; }
   .v-byline, .v-desc { font-size: 15px; }
   .v-footer { gap: 10px; }
@@ -678,11 +670,36 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   /* Lock body scroll while sheet is open */
   body.filters-open { overflow: hidden; }
 
-  .modal { padding: 36px 22px 24px; max-height: 92vh; }
-  .modal-title { font-size: 24px; padding-right: 36px; }
-  .modal-text { font-size: 15px; }
-  .modal-text::first-letter { font-size: 3.4em; }
-  .modal-close { top: 10px; right: 10px; }
+  /* On mobile, scroll only the overlay (one scroll context).
+     The .modal-text inner scroll is dropped and the panel grows naturally. */
+  .modal-overlay { padding: 16px; }
+  .modal {
+    padding: 24px 18px 20px;
+    max-height: none;
+  }
+  .modal-title {
+    font-size: 20px;
+    line-height: 1.2;
+    padding-right: 36px;
+    margin-bottom: 8px;
+  }
+  .modal-byline { font-size: 15px; margin-bottom: 6px; }
+  .modal-stamp { margin-bottom: 14px; padding-bottom: 14px; }
+  .modal-tags { margin-bottom: 16px; }
+  .modal-text {
+    font-size: 15px;
+    line-height: 1.6;
+    max-height: none;
+    overflow-y: visible;
+    padding-right: 0;
+    margin-bottom: 18px;
+  }
+  .modal-text::first-letter {
+    font-size: 2.8em;
+    padding-right: 8px;
+  }
+  .modal-actions { margin-bottom: 16px; }
+  .modal-close { top: 8px; right: 8px; }
 }
 
 /* =========================== MODAL =========================== */

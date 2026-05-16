@@ -172,14 +172,6 @@ function renderTextWithLinks(text, entities) {
   return out;
 }
 
-function emphasize(title) {
-  const safe = escapeHtml(title);
-  return safe.replace(
-    /\b(Product Manager|Product Owner|Product Lead|Head of Product|VP of Product|Director of Product|продакт[- ]?менеджер[аеоумыхи]*|продакт[аеоумыхи]*|product[- ]?manager|product[- ]?owner|product[- ]?lead|CPO|PM)\b/i,
-    '<em>$1</em>'
-  );
-}
-
 function tagList(v) {
   const tags = [];
   if (v.grade) tags.push(`<span class="tag tag-grade">${escapeHtml(v.grade)}</span>`);
@@ -212,7 +204,7 @@ function renderCard(v, idx) {
       <div class="v-num">${num}</div>
       <div class="v-body">
         ${v.is_new ? '<div class="v-tags-top"><span class="tag-new">NEW</span></div>' : ''}
-        <h2 class="v-title">${emphasize(v.title || '')}</h2>
+        <h2 class="v-title">${escapeHtml(v.title || '')}</h2>
         <div class="v-meta">
           ${escapeHtml(company)} · ${escapeHtml(location)} · ${escapeHtml(channel)}
         </div>
@@ -428,7 +420,7 @@ function renderModalContent(v) {
 
   return `
     ${v.is_new ? '<div class="v-tags-top"><span class="tag-new">NEW</span></div>' : ''}
-    <h2 class="modal-title" id="modal-title">${emphasize(v.title || '')}</h2>
+    <h2 class="modal-title" id="modal-title">${escapeHtml(v.title || '')}</h2>
     <div class="modal-meta">
       ${escapeHtml(company)} · ${escapeHtml(location)} · ${escapeHtml(channel)} · <span class="mono">${escapeHtml(dateStr)}</span>
     </div>

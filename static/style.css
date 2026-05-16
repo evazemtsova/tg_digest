@@ -305,7 +305,6 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   line-height: 1.25;
   margin-bottom: 6px;
 }
-.v-title em { color: var(--accent); }
 
 .v-meta {
   font-family: 'JetBrains Mono', monospace;
@@ -523,8 +522,6 @@ body.modal-open { overflow: hidden; }
   margin-bottom: 8px;
   padding-right: 40px;
 }
-.modal-title em { color: var(--accent); }
-
 .modal-meta {
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
